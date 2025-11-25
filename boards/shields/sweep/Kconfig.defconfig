@@ -1,18 +1,45 @@
 
 
-if SHIELD_SWEEP_LEFT
-# Name must be less than 16 characters long!
+# if SHIELD_SWEEP_LEFT
+# # Name must be less than 16 characters long!
+# config ZMK_KEYBOARD_NAME
+#     default "Sweep Pro"
+
+# config ZMK_SPLIT_ROLE_CENTRAL
+#     default y
+
+# endif 
+
+
+# if SHIELD_SWEEP_LEFT 
+# config ZMK_SPLIT
+#     default y
+# endif
+
+
+if SHIELD_SWEEP_DONGLE
+
+# Max 16 characters in keyboard name
 config ZMK_KEYBOARD_NAME
     default "Sweep Pro"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-endif 
-
-
-if SHIELD_SWEEP_LEFT 
 config ZMK_SPLIT
     default y
-endif
 
+# Set this to the number of peripherals your dongle will have.
+# For a unibody, this would be 1. If you have left and right halves, set it to 2, etc.
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 2
+
+# Set this to ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS + your desired number of BT profiles (default is 5)
+config BT_MAX_CONN
+    default 7
+
+# Set this to the same number as BT_MAX_CONN
+config BT_MAX_PAIRED
+    default 7
+
+endif

@@ -5,3 +5,7 @@ config SHIELD_SWEEP_LEFT
 # No whitespace after the comma or in your part name!
 config SHIELD_SWEEP_RIGHT
     def_bool $(shields_list_contains,sweep_right)
+
+# No whitespace after the comma or in the keyboard name!
+config SHIELD_SWEEP_DONGLE
+    def_bool $(shields_list_contains,sweep_dongle)
