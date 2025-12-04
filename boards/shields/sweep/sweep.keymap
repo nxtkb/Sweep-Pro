@@ -18,7 +18,18 @@
 #define TRI 4
 #define MOUSE 5
 
+&sensors {
+	left_encoder {
+		triggers-per-rotation = <15>;
+	};
+	right_encoder {
+		triggers-per-rotation = <45>;
+	};
+};
+
+
 / {
+	
 	behaviors {
 		ht: hold_tap {
 			label = "hold_tap";
@@ -82,7 +93,7 @@
 			&kp N1   &kp N2    &kp N3     &kp N4   &kp N5     &kp N6  &kp N7    &kp N8     &kp N9     &kp N0
 			&kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &trans     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &trans
 			&trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &bootloader
-			&trans   &kp ESC    &trans  &trans
+			&trans   &kp ESC   &trans  &trans
 			>;
 		};
 		

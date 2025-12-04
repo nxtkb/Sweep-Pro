@@ -76,27 +76,27 @@
 		;
 	};
 	
-	left_encoder: encoder_left {
+	left_encoder: left_encoder {
 		compatible = "alps,ec11";
 		a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 		b-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-		steps = <80>;
+		steps = <15>;
 		status = "disabled";
 	};
 	
-	right_encoder: encoder_right {
+	right_encoder: right_encoder {
 		compatible = "alps,ec11";
 		a-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
 		b-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-		steps = <80>;
+		steps = <15>;
 		status = "disabled";
 	};
 	
 	sensors: sensors {
 		compatible = "zmk,keymap-sensors";
 		sensors = <&left_encoder &right_encoder>;
-		triggers-per-rotation = <20>;
 	};
+	
 	
 	chosen {
 		zmk,physical-layout = &physical_layout0;
