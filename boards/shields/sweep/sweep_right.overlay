@@ -39,7 +39,7 @@
 		status = "okay";
 		compatible = "cirque,pinnacle";
 		reg = <0>;
-		spi-max-frequency = <100000>;
+		spi-max-frequency = <400000>;
 		dr-gpios = <&gpio0 20 (GPIO_ACTIVE_HIGH)>;
 		sensitivity = "4x";
 		y-invert; 
