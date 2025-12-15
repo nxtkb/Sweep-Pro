@@ -5,47 +5,50 @@
 };
 
 &right_encoder {
-    status = "okay";
+	status = "okay";
 };
 
 &pinctrl {
-	spi0_default: spi0_default {
+	/* configuration for i2c0 device, default state */
+	i2c0_default: i2c0_default {
 		group1 {
-			psels = <NRF_PSEL(SPIM_SCK, 0, 24)>,
-			<NRF_PSEL(SPIM_MOSI, 0, 8)>,
-			<NRF_PSEL(SPIM_MISO, 0, 17)>;
+			psels = <NRF_PSEL(TWIM_SDA, 0, 24)>,
+			<NRF_PSEL(TWIM_SCL, 0, 22)>;
+			bias-pull-up;
 		};
 	};
 	
-	spi0_sleep: spi0_sleep {
+	i2c0_sleep: i2c0_sleep {
 		group1 {
-			psels = <NRF_PSEL(SPIM_SCK, 0, 24)>,
-			<NRF_PSEL(SPIM_MOSI, 0, 8)>,
-			<NRF_PSEL(SPIM_MISO, 0, 17)>;
+			psels = <NRF_PSEL(TWIM_SDA, 0, 24)>,
+			<NRF_PSEL(TWIM_SCL, 0, 22)>;
 			low-power-enable;
 		};
 	};
 };
 
-&pro_micro_spi {
+&i2c0 {
+	compatible = "nordic,nrf-twi";// I2C controller instead of generic
 	status = "okay";
-	compatible = "nordic,nrf-spim";
-	pinctrl-0 = <&spi0_default>;
-	pinctrl-1 = <&spi0_sleep>;
-	pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio0 22 GPIO_ACTIVE_LOW>;
 	
-	glidepoint: glidepoint@0 { 
-		status = "okay";
+	pinctrl-0 = <&i2c0_default>;
+	pinctrl-1 = <&i2c0_sleep>;
+	pinctrl-names = "default", "sleep";
+	
+	clock-frequency = <100000>;
+	
+	glidepoint: glidepoint@2a{
 		compatible = "cirque,pinnacle";
-		reg = <0>;
-		spi-max-frequency = <400000>;
+		reg = <0x2a>;
+		status = "okay";
+		
 		dr-gpios = <&gpio0 20 (GPIO_ACTIVE_HIGH)>;
-		sensitivity = "4x";
-		y-invert; 
+		
+		sensitivity = "2x";
+		y-invert;
 	};
 };
 
 &glidepoint_split {
-    device = <&glidepoint>;
+	device = <&glidepoint>;
 };
