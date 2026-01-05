@@ -19,11 +19,3 @@ config ZMK_POINTING
     default y
 
 endif
-
-
-if SHIELD_MY_KEYBOARD_RIGHT
-
-config SPI
-    default y
-
-endif

@@ -8,7 +8,7 @@ features:
 - keys
 - encoders
 - cirque trackpad
-- ink display
+- e-ink display or ttf display
 siblings:
 - sweep_left
 - sweep_right
