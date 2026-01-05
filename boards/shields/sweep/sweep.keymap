@@ -10,6 +10,8 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
+#include "behaviors/character_map.dtsi"
+#include "behaviors/report.dtsi"
 
 #define MAC 0
 #define WIN 1
@@ -103,7 +105,7 @@
 			display-name = "SYMBOL";
 			bindings = <
 			&kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE  &kp TILDE
-			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &trans      &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
+			&kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &default_report     &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
 			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &bootloader       &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
 			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
 			>;
