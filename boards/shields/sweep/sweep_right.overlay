@@ -45,6 +45,8 @@
 		
 		sensitivity = "4x";
 		y-invert;
+		sleep;
+
 	};
 };
 
