@@ -43,9 +43,10 @@
 		
 		dr-gpios = <&gpio0 22 (GPIO_ACTIVE_HIGH)>;
 		
-		sensitivity = "4x";
+		sensitivity = "3x";
 		y-invert;
 		sleep;
+		no-taps;
 
 	};
 };
