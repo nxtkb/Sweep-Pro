@@ -7,10 +7,10 @@
 #
 ---
 include:
-- board: nice_nano_v2
+- board: nice_nano
   shield: sweep_left
   snippet: studio-rpc-usb-uart
-- board: nice_nano_v2
+- board: nice_nano
   shield: sweep_right
-- board: nice_nano_v2
+- board: nice_nano
   shield: settings_reset
