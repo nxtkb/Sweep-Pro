@@ -1,21 +1,41 @@
+# manifest:
+#   remotes:
+#   - name: zmkfirmware
+#     url-base: https://github.com/lynnlee0522 # 修改这里
+#   - name: nxtkb
+#     url-base: https://github.com/nxtkb
+#   # Additional modules containing boards/shields/custom code can be listed here as well
+#   # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
+#   # - name: cirque-input-module
+#   #   url-base: https://github.com/petejohanson
+#   projects:
+#   - name: zmk_offical
+#     remote: zmkfirmware
+#     revision: main # 修改这里，指定分支名
+#     import: app/west.yml
+#   # - name: cirque-input-module
+#   #   remote: cirque-input-module
+#   #   revision: main
+#   - name: zmk-behavior-report
+#     remote: nxtkb
+#     revision: main
+#     import: west.yml
+#   self:
+#     path: config
+
 manifest:
   remotes:
   - name: zmkfirmware
-    url-base: https://github.com/lynnlee0522 # 修改这里
-  - name: nxtkb
-    url-base: https://github.com/nxtkb
+    url-base: https://github.com/zmkfirmware
   # Additional modules containing boards/shields/custom code can be listed here as well
   # See https://docs.zephyrproject.org/3.2.0/develop/west/manifest.html#projects
-  # - name: cirque-input-module
-  #   url-base: https://github.com/petejohanson
+  - name: nxtkb
+    url-base: https://github.com/nxtkb
   projects:
-  - name: zmk_offical
+  - name: zmk
     remote: zmkfirmware
-    revision: main # 修改这里，指定分支名
+    revision: main
     import: app/west.yml
-  # - name: cirque-input-module
-  #   remote: cirque-input-module
-  #   revision: main
   - name: zmk-behavior-report
     remote: nxtkb
     revision: main
