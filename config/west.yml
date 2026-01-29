@@ -11,7 +11,7 @@ manifest:
   projects:
   - name: zmk_offical
     remote: zmkfirmware
-    revision: st7789_screen # 修改这里，指定分支名
+    revision: main # 修改这里，指定分支名
     import: app/west.yml
   # - name: cirque-input-module
   #   remote: cirque-input-module
