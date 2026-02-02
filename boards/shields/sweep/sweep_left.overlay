@@ -47,10 +47,10 @@
 			label = "Display LED";
 		};
 	};
-	mipi_dbi {
+	mipi_dbi_st7789v {
 		compatible = "zephyr,mipi-dbi-spi";
 		spi-dev = <&spi0>;
-		dc-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+		dc-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
 		reset-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
 		write-only;
 		#address-cells = <1>;
@@ -58,14 +58,18 @@
 		
 		st7789v: st7789v@0 {
 			compatible = "sitronix,st7789v";
-			mipi-max-frequency = <10000000>;
-			mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
+			status = "okay";
+			
 			reg = <0>;
-			ready-time-ms = <50>;
-			width = <240>;
-			height = <280>;
-			x-offset = <0>;
-			y-offset = <20>;
+			mipi-max-frequency = <DT_FREQ_M(20)>;
+			mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
+			
+			width = <240>;		/* portrait */
+			height = <280>;		/* portrait */
+			x-offset = <0>;		/* portrait */
+			y-offset = <20>;	/* portrait */
+			
+			
 			vcom = <0x19>;
 			gctrl = <0x35>;
 			vrhs = <0x12>;
