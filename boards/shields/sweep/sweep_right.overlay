@@ -42,8 +42,7 @@
 		status = "okay";
 		
 		data-ready-gpios = <&gpio0 22 (GPIO_ACTIVE_HIGH)>;
-		
-		sensitivity = "3x";
+		sensitivity = "4x";
 		primary-tap-enable;
 		sleep-mode-enable;
 		invert-y;
