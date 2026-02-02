@@ -5,7 +5,7 @@ manifest:
   - name: nxtkb
     url-base: https://github.com/nxtkb
   projects:
-  - name: zmk
+  - name: zmk_offical
     remote: zmkfirmware
     revision: ink_rotation # 修改这里，指定分支名
     import: app/west.yml
