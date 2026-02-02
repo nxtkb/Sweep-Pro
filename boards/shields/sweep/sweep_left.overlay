@@ -36,11 +36,22 @@
 };
 
 / {
+	chosen {
+		zephyr,display = &st7789v;
+		zmk,display-led = &disp_led;
+	};
+	leds {
+		compatible = "gpio-leds";
+		disp_led: disp_led {
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+			label = "Display LED";
+		};
+	};
 	mipi_dbi {
 		compatible = "zephyr,mipi-dbi-spi";
-		reset-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
-		dc-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
 		spi-dev = <&spi0>;
+		dc-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
 		write-only;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -50,6 +61,7 @@
 			mipi-max-frequency = <10000000>;
 			mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
 			reg = <0>;
+			ready-time-ms = <50>;
 			width = <240>;
 			height = <280>;
 			x-offset = <0>;
@@ -69,20 +81,6 @@
 			nvgam-param = [ D0 04 0C 11 13 2C 3F 44 51 2F 1F 1F 20 23  ];
 			ram-param = [ 00 F0  ];
 			rgb-param = [ CD 08 14  ];
-		};
-	};
-};
-
-/ {
-	chosen {
-		zephyr,display = &st7789v;
-		zmk,display-led = &disp_led;
-	};
-	leds {
-		compatible = "gpio-leds";
-		disp_led: disp_led {
-			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
-			label = "Display LED";
 		};
 	};
 };
