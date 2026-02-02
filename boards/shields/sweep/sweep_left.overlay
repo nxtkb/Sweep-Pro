@@ -54,7 +54,7 @@
 			mipi-max-frequency = <4000000>;
 			busy-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
 			tssv = <0x80>;
-			// rotation = <90>;// 关键：添加这一行
+			rotation = <90>;// 关键：添加这一行
 			
 			full {
 				border-waveform = <0x05>;
