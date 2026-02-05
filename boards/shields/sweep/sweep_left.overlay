@@ -50,7 +50,7 @@
 			status = "okay";
 			compatible = "galaxycore,gc9x01x";
 			reg = <0>;
-			mipi-max-frequency = <DT_FREQ_M(100)>;
+			mipi-max-frequency = <DT_FREQ_M(8)>;
 			pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
 			width = <240>;
 			height = <240>;
@@ -60,5 +60,14 @@
 	
 	chosen {
 		zephyr,display = &display0;
+		zmk,display-led = &disp_led;
+	};
+	
+	leds {
+		compatible = "gpio-leds";
+		disp_led: disp_led {
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+			label = "Display LED";
+		};
 	};
 };
