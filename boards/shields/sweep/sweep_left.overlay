@@ -1,5 +1,6 @@
 #include "sweep.dtsi"
 #include <zephyr/dt-bindings/mipi_dbi/mipi_dbi.h>
+#include <zephyr/dt-bindings/display/panel.h>
 
 &left_encoder {
 	status = "okay";
@@ -27,12 +28,12 @@
 };
 
 &spi0 {
-    status = "okay";
-    compatible = "nordic,nrf-spim";
-    pinctrl-0 = <&spi0_default>;
-    pinctrl-1 = <&spi0_sleep>;
-    pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>; 
+	status = "okay";
+	compatible = "nordic,nrf-spim";
+	pinctrl-0 = <&spi0_default>;
+	pinctrl-1 = <&spi0_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
 };
 
 / {
@@ -46,23 +47,14 @@
 		#size-cells = <0>;
 		
 		display0: display@0 {
-			compatible = "solomon,ssd1680";
 			status = "okay";
+			compatible = "galaxycore,gc9x01x";
 			reg = <0>;
-			width = <152>;
-			height = <152>;
-			mipi-max-frequency = <4000000>;
-			busy-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
-			tssv = <0x80>;
-			rotation = <90>;// 关键：添加这一行
-			
-			full {
-				border-waveform = <0x05>;
-			};
-			
-			partial {
-				border-waveform = <0x3c>;
-			};
+			mipi-max-frequency = <DT_FREQ_M(100)>;
+			pixel-format = <PANEL_PIXEL_FORMAT_RGB_565>;
+			width = <240>;
+			height = <240>;
+			display-inversion;
 		};
 	};
 	
