@@ -6,21 +6,13 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-endif
+endif 
 
 
 if SHIELD_SWEEP_LEFT || SHIELD_SWEEP_RIGHT
-
 config ZMK_SPLIT
     default y
-
-config ZMK_POINTING
-    default y
-
-config SYSTEM_WORKQUEUE_STACK_SIZE
-	default 8192
-
-config ZMK_DISPLAY_BLANK_ON_IDLE
-	default y
-
 endif
+
+# config ZMK_DISPLAY_BLANK_ON_IDLE
+	# default y
