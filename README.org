@@ -85,4 +85,8 @@ screenshots taken from [[https://nickcoutsos.github.io/keymap-editor/][keymap ed
 * References
 
 - [[https://github.com/davidphilipbarr/Sweep][Sweep Repo]]
+<<<<<<< HEAD
 - [[https://www.youtube.com/watch?v=VShLPvF693k][keymap I initially copied]]
+=======
+- [[https://www.youtube.com/watch?v=VShLPvF693k][keymap I initially copied]]
+>>>>>>> a264d866a9a09f5f748311a290809ca4e8cd4c2c
