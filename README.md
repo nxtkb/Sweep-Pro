@@ -1,3 +1,6 @@
+<div align="left">
+<a href="README.md">English</a> | <a href="README-zh_CN.md">中文</a>
+</div>
 
 # Ferris Sweep Pro (34-Key Split Keyboard)
 
@@ -9,8 +12,9 @@ A high-performance, ultra-thin split ergonomic keyboard designed for enthusiasts
 
 * **Taobao Store:** Search "ferris sweep" on Taobao ([ferris sweep](https://item.taobao.com/item.htm?ft=t&id=1021093959607))
 * **Discord:** @lilin0522
+* **WeXin:** nxtkb888 / 1736465973
 
-
+![more_info](images/more_info.png)
 ---
 
 ## ✨ Key Features
@@ -157,6 +161,8 @@ We offer 4 configurations to suit your specific workflow:
 
 ## Q&A
 ![Q&A](images/Q&A.png)
+
+
 
 ## ⌨️ Default Layout
 
