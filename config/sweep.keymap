@@ -143,7 +143,7 @@
 			&ds_z 0 Z   &sel_x LCLK X       &snipe_c 0 C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT    &kp SPACE  &lt RIG TAB   &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 		
 		windows_layer {
@@ -154,7 +154,7 @@
 			&ds_z 0 Z  &sel_x LCLK X       &snipe_c 0 C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
 			&kp C_MUTE  &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 		
 		right_layer {
@@ -165,7 +165,7 @@
 			&trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &trans
 			&kp C_MUTE &trans   &kp ESC   &trans  &trans &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 		
 		left_layer {
@@ -176,7 +176,7 @@
 			&kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &trans   &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
 			&kp C_MUTE &trans    &trans       &tog MOUSE     &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 		
 		tri_layer {
@@ -187,7 +187,7 @@
 			&kp F9  &kp F10  &kp F11  &kp F12  &bt BT_CLR      &bt BT_SEL 4  &kp C_BRI_DEC  &soft_off     &kp C_VOL_DN  &kp C_NEXT
 			&kp C_MUTE  &trans   &trans          &trans        &trans  &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 	
 		mouse {
@@ -198,7 +198,7 @@
 			&ptr_spd SPEED_POINTER SPEED_PREV  &ptr_spd SPEED_POINTER SPEED_NEXT  &ptr_spd SPEED_SCROLL SPEED_PREV  &ptr_spd SPEED_SCROLL SPEED_NEXT  &trans      &trans     &mkp MB4  &mkp MCLK  &mkp MB5  &trans
 			&kp C_MUTE &kp SPACE  &kp LSHIFT  &mkp LCLK  &mkp RCLK &studio_unlock
 			>;
-			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp PG_UP PG_DN>;
+			sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
 		};
 	};
 };
