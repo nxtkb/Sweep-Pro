@@ -1,16 +1,18 @@
 manifest:
   remotes:
   - name: zmkfirmware
-    url-base: https://github.com/lynnlee0522 # 修改这里
+    url-base: https://github.com/zmkfirmware
+  - name: lynnlee0522
+    url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
   projects:
   - name: zmk
     remote: zmkfirmware
-    revision: ink_rotation # 修改这里，指定分支名
+    revision: cb615aee9a7c427e251f2ab62080c1a44a165da9
     import: app/west.yml
   - name: zmk-vfx-widgets
-    remote: zmkfirmware
+    remote: lynnlee0522
     revision: main
   - name: zmk-behavior-report
     remote: nxtkb
