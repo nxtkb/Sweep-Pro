@@ -1,0 +1,29 @@
+# GitHub uses this file when you click "Generate release notes" while drafting a release.
+# Keep PR labels aligned with these categories for cleaner release notes.
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+      - skip-changelog
+  categories:
+    - title: 🚀 Update
+      labels:
+        - enhancement
+        - feature
+        - firmware
+        - upstream
+    - title: 🐛 Bug Fixes
+      labels:
+        - bug
+        - bugfix
+        - fix
+    - title: 📚 Documentation
+      labels:
+        - documentation
+        - docs
+    - title: 📦 Dependencies
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - "*"
