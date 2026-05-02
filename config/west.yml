@@ -13,13 +13,13 @@ manifest:
     import: app/west.yml
   - name: zmk-vfx-sweep-pro-display
     remote: nxtkb
-    revision: 7fa09a2ea91f94f7378acaf81b461197b01f4854
+    revision: 5804c0719668e80ffe1631a544a26a5fa87adb3e
   - name: zmk-behavior-report
     remote: nxtkb
-    revision: main
+    revision: 476f43da1f98b4a6150c9c0e499a257bd64a29a0
     import: west.yml
   - name: cirque-input-module
     remote: nxtkb
-    revision: main
+    revision: 7b6b7913ae294bbccae4db8ae550ea7d38f63e9a
   self:
     path: config
