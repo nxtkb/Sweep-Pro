@@ -1,0 +1,52 @@
+&pinctrl {
+	i2c0_default: i2c0_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 20)>,
+				<NRF_PSEL(TWIM_SCL, 0, 17)>;
+		};
+	};
+
+	i2c0_sleep: i2c0_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 20)>,
+				<NRF_PSEL(TWIM_SCL, 0, 17)>;
+			low-power-enable;
+		};
+	};
+};
+
+&i2c0 {
+	compatible = "nordic,nrf-twim";
+	status = "okay";
+
+	pinctrl-0 = <&i2c0_default>;
+	pinctrl-1 = <&i2c0_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	clock-frequency = <400000>;
+
+	tps65: iqs5xx@74 {
+		compatible = "azoteq,iqs5xx";
+		reg = <0x74>;
+		status = "okay";
+
+		rdy-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
+
+		one-finger-tap;
+		two-finger-tap;
+		press-and-hold;
+		press-and-hold-time = <250>;
+
+		scroll;
+		natural-scroll-x;
+		natural-scroll-y;
+
+		bottom-beta = <5>;
+		stationary-threshold = <5>;
+	};
+};
+
+&tps65_split {
+	status = "okay";
+	device = <&tps65>;
+};

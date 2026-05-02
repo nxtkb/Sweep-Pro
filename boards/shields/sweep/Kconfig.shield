@@ -9,5 +9,5 @@ config SHIELD_SWEEP_LEFT_DISPLAY_HW
 config SHIELD_SWEEP_RIGHT
     def_bool $(shields_list_contains,sweep_right)
 
-config SHIELD_SWEEP_RIGHT_TRACKPAD
-    def_bool $(shields_list_contains,sweep_right_trackpad)
+config SHIELD_SWEEP_RIGHT_TPS65
+    def_bool $(shields_list_contains,sweep_right_tps65)

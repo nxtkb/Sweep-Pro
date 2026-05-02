@@ -138,15 +138,15 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 		
-		glidepoint_split: glidepoint_split@0 {
+		tps65_split: tps65_split@0 {
 			compatible = "zmk,input-split";
 			reg = <0>;
 			status = "disabled";
 		};
 	};
-	glidepoint_listener: glidepoint_listener {
+	tps65_listener: tps65_listener {
 		compatible = "zmk,input-listener";
 		status = "disabled";
-		device = <&glidepoint_split>;
+		device = <&tps65_split>;
 	};
 };

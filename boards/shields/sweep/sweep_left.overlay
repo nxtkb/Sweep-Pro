@@ -4,10 +4,10 @@
 	status = "okay";
 };
 
-&glidepoint_split {
+&tps65_split {
 	status = "okay";
 };
 
-&glidepoint_listener {
+&tps65_listener {
 	status = "okay";
 };

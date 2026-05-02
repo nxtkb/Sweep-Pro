@@ -19,7 +19,7 @@ include:
   shield: sweep_right
   artifact-name: sweep_right
 - board: nice_nano//zmk
-  shield: sweep_right sweep_right_trackpad
-  artifact-name: sweep_right_trackpad
+  shield: sweep_right sweep_right_tps65
+  artifact-name: sweep_right_tps65
 - board: nice_nano//zmk
   shield: settings_reset

@@ -76,18 +76,18 @@ Common parameters:
 
 ```shell
 export NXTKB_ROOT="/path/to/nxtkb"
-EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/cirque-input-module;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string"
+EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/zmk-driver-azoteq-iqs5xx;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string"
 ZMK_CONFIG_DIR="$NXTKB_ROOT/Sweep-Pro/config"
 ```
 
-The recommended output set is 4 half-keyboard firmware files:
+Build the half-keyboard firmware files you need:
 
 | Firmware | Shield combination | Use |
 | :--- | :--- | :--- |
 | `sweep_left` | `sweep_left` | Base left half, no display |
 | `sweep_left_display` | `sweep_left sweep_left_display_hw sweep_display` | Left half with e-ink display |
 | `sweep_right` | `sweep_right` | Base right half, no trackpad |
-| `sweep_right_trackpad` | `sweep_right sweep_right_trackpad` | Right half with Cirque trackpad |
+| `sweep_right_tps65` | `sweep_right sweep_right_tps65` | Right half with Azoteq TPS65 trackpad |
 
 Use these combinations for the 4 keyboard variants:
 
@@ -95,8 +95,8 @@ Use these combinations for the 4 keyboard variants:
 | :--- | :--- | :--- |
 | Basic | `sweep_left` | `sweep_right` |
 | E-ink | `sweep_left_display` | `sweep_right` |
-| Trackpad | `sweep_left` | `sweep_right_trackpad` |
-| Flagship | `sweep_left_display` | `sweep_right_trackpad` |
+| TPS65 Trackpad | `sweep_left` | `sweep_right_tps65` |
+| TPS65 Flagship | `sweep_left_display` | `sweep_right_tps65` |
 
 Base left half. Studio RPC over USB UART is useful for ZMK Studio remapping:
 
@@ -127,11 +127,11 @@ west build -s app -p -d build/sweep_right -b nice_nano//zmk -- \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
 
-Right half with trackpad. `sweep_right_trackpad` provides the Cirque I2C/Pinnacle node:
+Right half with TPS65. `sweep_right_tps65` provides the Azoteq IQS5xx I2C node, currently using address `0x74`:
 
 ```shell
-west build -s app -p -d build/sweep_right_trackpad -b nice_nano//zmk -- \
-    -DSHIELD="sweep_right sweep_right_trackpad" \
+west build -s app -p -d build/sweep_right_tps65 -b nice_nano//zmk -- \
+    -DSHIELD="sweep_right sweep_right_tps65" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -144,7 +144,7 @@ After a successful build, the firmware files are:
 build/sweep_left/zephyr/zmk.uf2
 build/sweep_left_display/zephyr/zmk.uf2
 build/sweep_right/zephyr/zmk.uf2
-build/sweep_right_trackpad/zephyr/zmk.uf2
+build/sweep_right_tps65/zephyr/zmk.uf2
 ```
 
 For later builds with the same CMake parameters, you can usually reuse the build directories:
@@ -153,7 +153,7 @@ For later builds with the same CMake parameters, you can usually reuse the build
 west build -d build/sweep_left
 west build -d build/sweep_left_display
 west build -d build/sweep_right
-west build -d build/sweep_right_trackpad
+west build -d build/sweep_right_tps65
 ```
 
 If you change the shield, extra modules, snippets, or `ZMK_CONFIG`, rerun the full command with `-p` to regenerate the build directory.

@@ -24,7 +24,7 @@ A high-performance, ultra-thin split ergonomic keyboard designed for enthusiasts
 
 * **E-ink Status Display:** 1.54" high-contrast E-ink screen providing real-time feedback on battery life, active layers, **split pairing status**, and connection mode.
 * **Massive Battery Life:** Equipped with a **4000mAh total capacity** (2000mAh per side) for months of wireless usage on a single charge.
-* **Integrated Cirque Trackpad:** Smooth and precise navigation with a built-in Cirque GlidePoint® circle trackpad—eliminating the need for a mouse.
+* **Integrated Azoteq TPS65 Trackpad:** Smooth cursor control, click gestures, drag, and two-axis scrolling from the right half.
 * **Dual Customizable Encoders:** Twin rotary encoders for intuitive volume control, page scrolling, or custom macro execution.
 * **ZMK Studio Ready:** Effortless real-time key remapping via ZMK Studio—**no coding or reflashing required.**
 * **Magnetic Tenting System:** Rapidly adjust your typing angle for maximum ergonomic comfort with our specialized magnetic stands.
@@ -40,7 +40,7 @@ A high-performance, ultra-thin split ergonomic keyboard designed for enthusiasts
 | :--- | :--- |
 | **Layout** | 34 Keys (Ferris Sweep Variant) |
 | **Display** | **1.54" E-ink Display** (High-contrast Electronic Paper) |
-| **Pointing Device** | Cirque GlidePoint® Circle Trackpad |
+| **Pointing Device** | Azoteq TPS65 capacitive trackpad |
 | **Input** | Dual Clickable Rotary Encoders |
 | **Firmware** | ZMK Firmware (Studio Compatible) |
 | **Keycaps** | **Custom-Designed for Sweep Pro** (Sculpted Low-Profile PBT) |
@@ -50,15 +50,15 @@ A high-performance, ultra-thin split ergonomic keyboard designed for enthusiasts
 
 ---
 
-## 🖱️ Cirque GlidePoint® Trackpad
+## 🖱️ Azoteq TPS65 Trackpad
 
-The 40mm Cirque Trackpad comes with built-in gesture recognition, allowing you to perform common mouse actions directly on the keyboard:
+The TPS65 trackpad uses an IQS5xx I2C driver, allowing you to perform common mouse actions directly on the keyboard:
 
 * **Cursor Move:** Slide with one finger.
 * **Left Click:** Single tap anywhere on the pad.
-* **Double Click:** Double tap to open files or select text.
-* **Right Click:** Tap the **lower-right corner** for context menus.
-* **Vertical Scroll:** Slide one finger **up or down along the right edge** for smooth page scrolling.
+* **Right Click:** Two-finger tap for context menus.
+* **Drag:** Press and hold to keep the left button down while moving.
+* **Scrolling:** Use the built-in vertical and horizontal scroll gestures.
 
 ![trackpad](images/trackpad.png)
 
@@ -146,8 +146,8 @@ Most split keyboards have flat thumb keys, but we’ve implemented a **sunken st
 We offer 4 configurations to suit your specific workflow:
 * **Basic Edition:** Full keyboard assembly (Switches & Keycaps included).
 * **E-ink Edition:** Basic Edition + **1.54" E-ink Status Display**.
-* **Trackpad Edition:** Basic Edition + **Cirque GlidePoint® Trackpad**.
-* **Flagship Edition:** The ultimate setup with **both E-ink Display & Cirque Trackpad**.
+* **Trackpad Edition:** Basic Edition + **Azoteq TPS65 Trackpad**.
+* **Flagship Edition:** The ultimate setup with **both E-ink Display & TPS65 Trackpad**.
 
 ### 2. Choose Your Bundle
 * **Standard Kit:** Your chosen keyboard version only.

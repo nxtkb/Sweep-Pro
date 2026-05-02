@@ -6,6 +6,8 @@ manifest:
     url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
+  - name: aym1607
+    url-base: https://github.com/AYM1607
   projects:
   - name: zmk
     remote: zmkfirmware
@@ -18,8 +20,8 @@ manifest:
     remote: nxtkb
     revision: main
     import: west.yml
-  - name: cirque-input-module
-    remote: nxtkb
-    revision: main
+  - name: zmk-driver-azoteq-iqs5xx
+    remote: aym1607
+    revision: 27321f0232b50f0af31eb27ff97d539933467ea4
   self:
     path: config
