@@ -74,6 +74,18 @@
 			then-layer = <TRI>;
 		};
 	};
+
+	combos {
+		compatible = "zmk,combos";
+
+		combo_df_left_click {
+			timeout-ms = <25>;
+			require-prior-idle-ms = <125>;
+			key-positions = <12 13>;
+			layers = <MAC WIN MOUSE>;
+			bindings = <&mkp LCLK>;
+		};
+	};
 	
 	keymap {
 		compatible = "zmk,keymap";
