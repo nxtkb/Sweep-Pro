@@ -12,5 +12,6 @@ features:
 siblings:
   - sweep_left
   - sweep_left_display_hw
+  - sweep_left_tps65
   - sweep_right
   - sweep_right_tps65

@@ -1,0 +1,84 @@
+#include <dt-bindings/zmk/keys.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	tps65_gesture_behaviors: tps65_gesture_behaviors {
+		compatible = "zmk,input-processor-behaviors";
+		#input-processor-cells = <0>;
+		codes = <INPUT_BTN_4 INPUT_BTN_3 INPUT_BTN_6 INPUT_BTN_5 INPUT_BTN_8 INPUT_BTN_7>;
+		bindings = <&kp LC(UP) &kp LC(DOWN) &kp LC(RIGHT) &kp LC(LEFT) &kp LG(RBKT) &kp LG(LBKT)>;
+	};
+};
+
+&pinctrl {
+	i2c0_default: i2c0_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 20)>,
+				<NRF_PSEL(TWIM_SCL, 0, 17)>;
+		};
+	};
+
+	i2c0_sleep: i2c0_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 20)>,
+				<NRF_PSEL(TWIM_SCL, 0, 17)>;
+			low-power-enable;
+		};
+	};
+};
+
+&i2c0 {
+	compatible = "nordic,nrf-twim";
+	status = "okay";
+
+	pinctrl-0 = <&i2c0_default>;
+	pinctrl-1 = <&i2c0_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	clock-frequency = <400000>;
+
+	tps65: iqs5xx@74 {
+		compatible = "azoteq,iqs5xx";
+		reg = <0x74>;
+		status = "okay";
+
+		rdy-gpios = <&gpio0 22 GPIO_ACTIVE_HIGH>;
+
+		one-finger-tap;
+		two-finger-tap;
+		press-and-hold;
+		press-and-hold-time = <250>;
+
+		scroll;
+		natural-scroll-x;
+		natural-scroll-y;
+		two-finger-page-swipe-left;
+		two-finger-page-swipe-left-button-code = <INPUT_BTN_8>;
+		two-finger-page-swipe-right;
+		two-finger-page-swipe-right-button-code = <INPUT_BTN_7>;
+		two-finger-page-swipe-threshold = <60>;
+
+		multi-finger-swipe-up;
+		multi-finger-swipe-up-button-code = <INPUT_BTN_4>;
+		multi-finger-swipe-down;
+		multi-finger-swipe-down-button-code = <INPUT_BTN_3>;
+		multi-finger-swipe-left;
+		multi-finger-swipe-left-button-code = <INPUT_BTN_6>;
+		multi-finger-swipe-right;
+		multi-finger-swipe-right-button-code = <INPUT_BTN_5>;
+		multi-finger-swipe-threshold = <60>;
+
+		bottom-beta = <5>;
+		stationary-threshold = <5>;
+	};
+};
+
+&tps65_split {
+	status = "disabled";
+};
+
+&tps65_listener {
+	status = "okay";
+	device = <&tps65>;
+	input-processors = <&tps65_gesture_behaviors>;
+};
