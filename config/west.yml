@@ -6,8 +6,6 @@ manifest:
     url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
-  - name: aym1607
-    url-base: https://github.com/AYM1607
   projects:
   - name: zmk
     remote: zmkfirmware
@@ -21,7 +19,7 @@ manifest:
     revision: main
     import: west.yml
   - name: zmk-driver-azoteq-iqs5xx
-    remote: aym1607
-    revision: 27321f0232b50f0af31eb27ff97d539933467ea4
+    remote: nxtkb
+    revision: 3df913de38353bd9f6b2211f043f35c95740a4b5
   self:
     path: config
