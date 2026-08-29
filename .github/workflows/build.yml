@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     # Pin the reusable workflow so the module and build procedure stay in sync.
-    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@077cc618ac3beb9acb92f86ee067d676ed9629f9
+    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@cb08948c527a206f02b9ca7a567bc2437ccd4970
     with:
       build_matrix_path: build.yaml
       archive_name: sweep-pro-firmware
