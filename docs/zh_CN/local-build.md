@@ -9,7 +9,10 @@ cd "$NXTKB_ROOT/zmkfirmware/zmk"
 
 后续命令默认从 ZMK workspace 根目录执行。`$NXTKB_ROOT/Sweep-Pro` 是键盘配置和 shield 仓库，不是 west workspace 根目录。不要在 `Sweep-Pro` 目录里直接执行 `west build`。
 
-当前本地编译使用官方 `zmkfirmware/zmk` checkout。Sweep-Pro 的屏幕状态栏已经从旧的 `lynnlee0522/zmk` fork 拆成独立模块 `zmk-vfx-sweep-pro-display`，所以编译带屏幕的左手固件时需要同时加入该 module，并把 `sweep_display` 放进 `SHIELD` 列表。
+当前本地编译使用 `nxtkb/zmk` fork。该 fork 仅保留少量 NXTKB 必需 commit，
+并持续 rebase 到官方 ZMK main。Sweep-Pro 的屏幕状态栏位于独立模块
+`zmk-vfx-sweep-pro-display` 中，所以编译带屏幕的左手固件时需要同时加入该
+module，并把 `sweep_display` 放进 `SHIELD` 列表。
 
 Sweep-Pro 的 keymap 是所有硬件版本共用的一份 `config/sweep.keymap`。屏幕和触控板作为可选 shield 组合进构建，因此同一个仓库可以产出 4 个半边固件，用户只需要按自己的硬件版本选择对应 UF2。
 
@@ -171,22 +174,11 @@ west build -d build/sweep_right_trackpad
 HID-over-GATT report，同时保留 ZMK 普通 USB/蓝牙 HID 和 Studio USB UART。Codex RPC
 响应发起请求的传输通道。
 
-仓库的默认 GitHub Actions workflow 会构建启用 Codex 的 central 固件，并自动应用所需的
-官方 ZMK 兼容补丁。本地构建时，如果 Codex 模块是 west workspace 中的 project，请先
-应用模块声明的补丁：
+仓库的默认 GitHub Actions workflow 使用固定版本的 `nxtkb/zmk` 构建启用 Codex 的
+central 固件。该 fork 已经包含所需的 USB HID interrupt-OUT 支持，不再需要单独应用
+patch。本地构建时，只需把 Codex 模块加入 module 列表：
 
 ```shell
-west patch -sm zmk-feature-codex-micro apply
-```
-
-如果模块位于 west workspace 外部的同级目录，则先用 `git apply` 向 ZMK 应用一次补丁，
-再把 Codex 模块加入本地模块列表：
-
-```shell
-git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply --check \
-    "$NXTKB_ROOT/zmk-feature-codex-micro/zephyr/patches/zmk/zmk-usb-hid-interrupt-out.patch"
-git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply \
-    "$NXTKB_ROOT/zmk-feature-codex-micro/zephyr/patches/zmk/zmk-usb-hid-interrupt-out.patch"
 CODEX_EXTRA_MODULES="$EXTRA_MODULES;$NXTKB_ROOT/zmk-feature-codex-micro"
 ```
 

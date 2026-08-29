@@ -8,15 +8,15 @@ manifest:
     url-base: https://github.com/nxtkb
   projects:
   - name: zmk
-    remote: zmkfirmware
-    revision: cb615aee9a7c427e251f2ab62080c1a44a165da9
+    remote: nxtkb
+    revision: 5fb1f293caeffce2eb1637e03905ae1336b9e291
     import: app/west.yml
   - name: zmk-vfx-sweep-pro-display
     remote: nxtkb
-    revision: afae3dcf7d94113dfbeb19fb4e4fbd08d6564008
+    revision: 578352fd5136bb5e3eafc6dc0cb00ae7ae5e705d
   - name: zmk-feature-codex-micro
     remote: nxtkb
-    revision: 0240a936280eb9ecec769279715999968b9760cd
+    revision: 077cc618ac3beb9acb92f86ee067d676ed9629f9
   - name: zmk-behavior-report
     remote: nxtkb
     revision: 476f43da1f98b4a6150c9c0e499a257bd64a29a0

@@ -9,7 +9,11 @@ cd "$NXTKB_ROOT/zmkfirmware/zmk"
 
 The following commands assume you are running them from the ZMK west workspace root. `$NXTKB_ROOT/Sweep-Pro` is the keyboard config and shield repository, not the west workspace root. Do not run `west build` directly inside the `Sweep-Pro` directory.
 
-The local build now uses the official `zmkfirmware/zmk` checkout. The Sweep-Pro display status screen has been split out of the old `lynnlee0522/zmk` fork into the standalone `zmk-vfx-sweep-pro-display` module, so builds with the display need that module in `ZMK_EXTRA_MODULES` and `sweep_display` in the `SHIELD` list.
+The local build uses the `nxtkb/zmk` fork, which is maintained as a small set of
+NXTKB commits rebased on current official ZMK main. The Sweep-Pro display status
+screen lives in the standalone `zmk-vfx-sweep-pro-display` module, so builds
+with the display need that module in `ZMK_EXTRA_MODULES` and `sweep_display` in
+the `SHIELD` list.
 
 All Sweep-Pro hardware variants share one `config/sweep.keymap`. The display and trackpad are optional shields that get composed into the build, so one repository can produce 4 half-keyboard firmware files. Users only need to pick the UF2 files matching their hardware.
 
@@ -172,22 +176,12 @@ HID-over-GATT report while preserving the normal ZMK USB/Bluetooth HID and Studi
 interfaces. Codex RPC follows ZMK's selected output endpoint, including the active Bluetooth
 profile. Inactive USB and Bluetooth hosts cannot take over the Codex session by retrying.
 
-The repository's default GitHub Actions workflow builds Codex-enabled central firmware and applies
-the required official-ZMK compatibility patch automatically. For a local checkout in which the
-Codex module is a west project, apply the same declared patch once before building:
+The repository's default GitHub Actions workflow builds Codex-enabled central
+firmware with the pinned `nxtkb/zmk` revision. That fork already contains the
+required USB HID interrupt-OUT support, so no separate patch step is needed.
+For a local checkout, add the Codex module to the module list:
 
 ```shell
-west patch -sm zmk-feature-codex-micro apply
-```
-
-If the module is instead a sibling directory outside the west workspace, apply its patch to ZMK
-once with `git apply`, then add the module to the local module list:
-
-```shell
-git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply --check \
-    "$NXTKB_ROOT/zmk-feature-codex-micro/zephyr/patches/zmk/zmk-usb-hid-interrupt-out.patch"
-git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply \
-    "$NXTKB_ROOT/zmk-feature-codex-micro/zephyr/patches/zmk/zmk-usb-hid-interrupt-out.patch"
 CODEX_EXTRA_MODULES="$EXTRA_MODULES;$NXTKB_ROOT/zmk-feature-codex-micro"
 ```
 
