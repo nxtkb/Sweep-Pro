@@ -79,6 +79,40 @@ uv pip install -r zephyr/scripts/requirements-base.txt protobuf
 
 ## 编译 Sweep-Pro
 
+使用 `config/west.yml` 固定的官方 ZMK 版本
+`4de313367288aad5aeaa1243890e40dc813f7008`，不再依赖 NXTKB fork。
+如果现有 checkout 仍在 fork 上，先确认工作区干净，再切到该官方提交：
+
+```shell
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" switch --detach \
+    4de313367288aad5aeaa1243890e40dc813f7008
+```
+
+同级模块也应检出 `config/west.yml` 及其导入 manifest 固定的版本。
+`ZMK_EXTRA_MODULES` 会直接使用本地文件，不会校验版本；尤其应使用固定的 report 模块版本。
+
+编译任意半边之前，先应用一次显示模块维护的分体 USB 供电补丁。
+如果 ZMK 和显示模块都是 west workspace 中的 project：
+
+```shell
+west patch -sm zmk-vfx-sweep-pro-display apply
+```
+
+对于本文使用的同级 checkout：
+
+```shell
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply --check \
+    "$NXTKB_ROOT/zmk-vfx-sweep-pro-display/zephyr/patches/zmk/zmk-split-peripheral-usb-power.patch"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply \
+    "$NXTKB_ROOT/zmk-vfx-sweep-pro-display/zephyr/patches/zmk/zmk-split-peripheral-usb-power.patch"
+```
+
+共享配置为左右两半都启用 `CONFIG_ZMK_SPLIT_PERIPHERAL_USB_POWER`。
+左右两半需要刷入配套固件，屏幕才能接收到右半的 USB 供电状态。
+该标记表示接入 USB 供电，不代表充电芯片正在充电或电池已充满。
+更新到干净的 ZMK checkout 后需要重新应用补丁。发布 workflow 会自动应用
+显示模块的供电补丁和 Codex USB 补丁。
+
 公共参数：
 
 ```shell
@@ -168,8 +202,8 @@ west build -d build/sweep_right_trackpad
 ## Codex Micro USB 与蓝牙构建
 
 该构建会增加第二个 vendor-defined USB HID interface，以及加密的 vendor-defined
-HID-over-GATT report，同时保留 ZMK 普通 USB/蓝牙 HID 和 Studio USB UART。Codex RPC
-响应发起请求的传输通道。
+HID-over-GATT report，同时保留 ZMK 普通 USB/蓝牙 HID 和 Studio USB UART。
+Codex 按键与状态跟随当前 ZMK output 和蓝牙 profile。
 
 仓库的默认 GitHub Actions workflow 会构建启用 Codex 的 central 固件，并自动应用所需的
 官方 ZMK 兼容补丁。本地构建时，如果 Codex 模块是 west workspace 中的 project，请先

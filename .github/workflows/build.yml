@@ -13,7 +13,10 @@ jobs:
   build:
     # The module-owned workflow applies its version-matched ZMK compatibility
     # patch before building. Pinning it keeps the module and build procedure in sync.
-    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@0240a936280eb9ecec769279715999968b9760cd
+    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
     with:
       build_matrix_path: build.yaml
       archive_name: sweep-pro-firmware
+      patch_modules: |
+        zmk-feature-codex-micro
+        zmk-vfx-sweep-pro-display
