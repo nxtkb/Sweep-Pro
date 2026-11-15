@@ -79,6 +79,41 @@ uv pip install -r zephyr/scripts/requirements-base.txt protobuf
 
 ## Build Sweep-Pro
 
+Use official ZMK revision `4de313367288aad5aeaa1243890e40dc813f7008`, as pinned
+in `config/west.yml`. The previous NXTKB fork is no longer required. Before
+applying patches, switch a clean existing fork checkout to that official commit:
+
+```shell
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" switch --detach \
+    4de313367288aad5aeaa1243890e40dc813f7008
+```
+
+Keep sibling module checkouts at the revisions in `config/west.yml` (and its
+imported manifests); `ZMK_EXTRA_MODULES` uses those files directly, without
+checking their revisions. In particular, use the pinned report module revision.
+
+Before building any half, apply the display module's split USB power patch once. In a
+west workspace where ZMK and the display module are projects:
+
+```shell
+west patch -sm zmk-vfx-sweep-pro-display apply
+```
+
+For the sibling checkouts used in this guide:
+
+```shell
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply --check \
+    "$NXTKB_ROOT/zmk-vfx-sweep-pro-display/zephyr/patches/zmk/zmk-split-peripheral-usb-power.patch"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply \
+    "$NXTKB_ROOT/zmk-vfx-sweep-pro-display/zephyr/patches/zmk/zmk-split-peripheral-usb-power.patch"
+```
+
+The shared config enables `CONFIG_ZMK_SPLIT_PERIPHERAL_USB_POWER` on both halves.
+Flash matching left and right firmware so the display receives the right half's
+USB power state. The indicator shows USB power presence, not charger status.
+Patches must be reapplied after updating to a clean ZMK checkout. The release
+workflow applies both the display power patch and Codex USB patch automatically.
+
 Common parameters:
 
 ```shell
