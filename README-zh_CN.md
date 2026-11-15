@@ -1,190 +1,50 @@
-<div align="left">
-<a href="README.md">English</a> | <a href="README-zh_CN.md">中文</a>
-</div>
+# NXTKB Ferris Sweep Pro ZMK 配置
 
-# Ferris Sweep Pro (34键分体式键盘)
+[![Firmware Build](https://img.shields.io/github/actions/workflow/status/nxtkb/Sweep-Pro/build.yml?branch=main&label=firmware%20build&style=flat-square)](https://github.com/nxtkb/Sweep-Pro/actions/workflows/build.yml)
+[![Official Docs](https://img.shields.io/badge/docs-nxtkb.com-007c78?style=flat-square)](https://nxtkb.com/zh/docs/setup/ferris-sweep-pro/)
+[![Keymap Source](https://img.shields.io/badge/keymap-sweep.keymap-5f6fbf?style=flat-square)](./config/sweep.keymap)
+[![ZMK Studio](https://img.shields.io/badge/ZMK-Studio-8b5cf6?style=flat-square)](https://zmk.studio/)
 
-专为程序员与发烧友用户设计的高性能、超薄分体人体工学键盘。支持 ZMK Studio 实时改键、蓝牙无线连接，墨水屏，磁吸支架，以及精致的矮轴美学设计。
+中文 | [English](./README.md)
 
-![海报](images/poster.png)
+34 键矮轴分体键盘，支持 USB、蓝牙和 ZMK Studio，可选左侧墨水屏与右侧 Cirque 触控板。
+这个仓库保存键盘配置、默认键位和固件构建流程；上手与日常使用请从[官方使用指南](https://nxtkb.com/zh/docs/setup/ferris-sweep-pro/)开始。
+产品规格、轴体、配件和配色见[官网产品页](https://nxtkb.com/zh/products/ferris-sweep-pro/)。
 
-## 固件开发
+## 官方文档
 
-* [本地编译固件](docs/zh_CN/local-build.md)
+- [Ferris Sweep Pro 使用指南](https://nxtkb.com/zh/docs/setup/ferris-sweep-pro/)
+- [默认键位与层级](https://nxtkb.com/zh/docs/setup/keymap/ferris-sweep-pro-keymap/)
+- [连接设备](https://nxtkb.com/zh/docs/setup/connect/)
+- [使用 ZMK Studio 或源码改键](https://nxtkb.com/zh/docs/setup/keymap/how-to-update-keymaps/)
+- [固件下载与刷写](https://nxtkb.com/zh/docs/firmware/how-to-flash-a-firmware/)
+- [固件配置文件](https://nxtkb.com/zh/docs/firmware/sweep-pro-configuration/)
+- [Codex / ChatGPT 按键使用](https://nxtkb.com/zh/blog/codex-micro-chatgpt-protocol/)
+- [Cirque 触控板](https://nxtkb.com/zh/docs/setup/keymap/trackpad/) · [墨水屏](https://nxtkb.com/zh/docs/firmware/sweep-pro-display/)
 
-## 🤝 支持与链接
+## 固件与改键
 
-* **淘宝店铺:** 淘宝搜索 "ferris sweep" ([点击跳转店铺](https://item.taobao.com/item.htm?ft=t&id=1021093959607))
-* **Discord:** @lilin0522
-* **微信:** nxtkb888 / 17336465973
+[下载发布固件](https://github.com/nxtkb/Sweep-Pro/releases)，按使用指南选择对应硬件的左右半固件。
+日常改键可使用 [ZMK Studio](https://zmk.studio/)；需要修改固件功能时：
 
-![更多信息](images/more_info.png)
+1. Fork 本仓库，修改键位或配置文件。
+2. 等待 [GitHub Actions](https://github.com/nxtkb/Sweep-Pro/actions/workflows/build.yml) 构建固件。
+3. 下载 UF2，按[刷写指南](https://nxtkb.com/zh/docs/firmware/how-to-flash-a-firmware/)更新对应半边。
 
----
+本地开发见[本地编译固件](docs/zh_CN/local-build.md)。
 
-## ✨ 核心特性
+## 仓库结构
 
-* **电子墨水屏 (E-ink) 状态显示:** 1.54英寸高对比度电子墨水屏，实时反馈电池电量、当前层级、**左右手配对状态**以及连接模式。
-* **超长续航:** 配备 **4000mAh 总容量**（单边 2000mAh），单次充电可支持数月的无线使用。
-* **集成 Cirque 触控板:** 内置 Cirque GlidePoint® 圆形触控板，操作丝滑精准，彻底解放鼠标。
-* **双自定义旋钮:** 两个旋转编码器，可直观控制音量、翻页或执行自定义宏指令。
-* **支持 ZMK Studio:** 通过 ZMK Studio 实现轻松的实时键位重映射——**无需编程，无需重刷固件。**
-* **磁吸支撑系统:** 使用专属磁吸支架快速调节打字角度，获得最佳的人体工学舒适度。
-* **极简超薄外形:** 专为矮轴设计，搭配 **Sweep Pro 定制键帽**，打造现代、利落的视觉效果。
-* **优质 PBT 键帽:** 34 键全套，采用五面热升华工艺，并印有侧刻，导航更直观。
-* **双模无线连接:** 在高速 USB-C 有线模式与稳定的蓝牙连接之间无缝切换。
-
----
-
-## 📐 技术规格
-
-| 组件 | 规格描述 |
+| 路径 | 用途 |
 | :--- | :--- |
-| **布局** | 34 键 (Ferris Sweep 布局) |
-| **屏幕** | **1.54" 电子墨水屏** (高对比度电子纸) |
-| **指点设备** | Cirque GlidePoint® 圆形触控板 |
-| **输入控制** | 双带按键旋转编码器 |
-| **固件** | ZMK Firmware (兼容 Studio) |
-| **键帽** | **Sweep Pro 专属定制** (PBT 矮轴球帽) |
-| **轴体** | **提供 4 种矮轴可选:**<br>• 凯华-孤岛mini (静音线性矮轴)<br>• 凯华-鲸落mini (静音段落矮轴)<br>• 凯华-风雨明晦系列-遮山轴(有声段落矮轴)<br>• 佳达隆-矮青轴 (有声段落矮轴) |
-| **电池** | **4000mAh 总容量** (双 2000mAh 锂电池) |
+| [`config/sweep.keymap`](./config/sweep.keymap) | 默认层、按键与行为绑定。 |
+| [`config/sweep.conf`](./config/sweep.conf) | USB、蓝牙、ZMK Studio 等固件选项。 |
+| [`config/west.yml`](./config/west.yml) | 固定的 ZMK 与模块依赖。 |
+| [`build.yaml`](./build.yaml) | 左右半及硬件版本的构建目标。 |
+| [`.github/workflows/build.yml`](./.github/workflows/build.yml) | GitHub Actions 固件构建入口。 |
 
+## 支持
 
----
+[产品与购买](https://nxtkb.com/zh/products/ferris-sweep-pro/) · [键鼠测试](https://nxtkb.com/zh/docs/setup/keymap/input-tester/)
 
-## 🖱️ Cirque GlidePoint® 触控板
-
-40mm Cirque 触控板内置手势识别，让您在键盘上即可完成常见的鼠标操作：
-
-* **移动光标:** 单指滑动。
-* **左键单击:** 触控板任意区域单点。
-* **双击:** 快速连按两次，用于打开文件或选择文本。
-* **右键单击:** 点击触控板**右下角(5点钟方向)**打开右键菜单。
-* **垂直滚动:** 沿触控板**右边缘上下滑动**，实现丝滑的页面滚动。
-
-![触控板](images/trackpad.png)
-
----
-
-## 📺 1.54" 高对比度电子墨水屏
-不同于易分散注意力和高耗电的传统 OLED 屏幕，我们的 **1.54英寸电子纸显示屏 (EPD)** 提供了一个优雅、常亮的状态中心。
-
-* **实时状态:** 快速查看当前 **层级 (Layers)**、**电池百分比** 和 **连接模式** (USB/蓝牙)。
-* **分体同步信息:** 独家显示 **左/右手配对状态** ，连接状态，电量情况。
-* **超低功耗:** 电子墨水技术确保长效续航，仅在画面更新时消耗电量。
-* **绝佳视感:** 即便在强阳光或刺眼的办公室灯光下依然清晰可见，视角极广。
-
-![屏幕展示](images/display.png)
-
-
-## 🎨 Sweep Pro 专属定制键帽
-
-为了配合 Ferris Sweep Pro 的超薄外形，我们专门开发了一套**矮轴 PBT 定制键帽**。这并非市面通用的现成配件，而是专为 34 键布局量身定制。
-
-* **优质 PBT 材质:** 高含量 PBT 确保触感细腻干爽，长期重度使用也不易打油。
-* **五面热升华工艺:** 采用先进的印刷工艺，色彩鲜艳持久，图案包裹至键帽边缘，极具高级感。
-* **人体工学弧度:** 优化的键帽高度与弧度，缩短了手指行程，与矮轴的反馈相得益彰。
-* **直观的侧刻字符:** 在键帽前侧印有**副层级（Layer）字符**，无需死记硬背即可轻松切换符号与宏指令。
-
-![键帽图2](images/keycaps2.jpeg)
-![键帽图1](images/keycaps.png)
-
----
-
-## ⌨️ 矮轴轴体选项
-
-根据您的工作流选择最适合的手感。我们提供四种优质矮轴，涵盖从安静办公到硬核编程的全场景需求。
-
-| 轴体类型 | 手感特性 | 声音等级 | 适用场景 |
-| :--- | :--- | :--- | :--- |
-| **凯华-孤岛mini[静音线性矮轴]** | 丝滑顺畅 | 🤫 极度静音 | 开放式办公室、深夜加班、流畅游戏 |
-| **凯华-鲸落mini[静音段落矮轴]** | 轻微段落感 | 🤫 极度静音 | 需要按键反馈但不希望产生噪音的用户 |
-| **凯华-风雨明晦系列-遮山轴[有声段落矮轴]** | 清脆强烈的段落感 | 🔊 悦耳响亮 | 热爱机械键盘经典“咔哒”声的用户 |
-| **佳达隆青轴[有声段落矮轴]** | 经典段落体验 | 🔉 适中响亮 | 均衡、传统的青轴体验，触发轻盈 |
-
-> **建议:** 如果您计划在公共办公区使用，我们强烈推荐 **凯华静音系列**，以保持工作环境的安静。
-
-![轴体图1](images/switches1.png)
-![轴体图2](images/switches2.png)
-
----
-
-### ⚡ ZMK Studio 支持
-* **实时重映射:** 随时随地修改键位和宏。
-* **即改即生效:** 点击 **"Save" (保存)** 后，新键位立即生效——**无需重启，无需刷机，零等待时间。**
-
-![Studio截图](images/studio.png)
-
----
-
-## 🔍 更多专业细节
-
-我们对 Ferris Sweep Pro 进行了偏执的打磨，确保每一次交互都充满质感。
-
-### 🔄 双旋转编码器
-精加工双旋钮，指尖触碰即可精准滚动。支持 ZMK 完全自定义，默认快捷功能如下：
-* **左旋钮:** 快速控制音量与静音。
-* **右旋钮:** 调节屏幕亮度或页面滚动。
-* **自定义:** 可映射为缩放、撤销/重做，或在设计软件中调节笔刷大小。
-
-### 🔘 专属金属复位键
-告别用曲别针找复位孔或短接引脚的烦恼。
-* **硬件级控制:** 坚固的金属按键，用于快速重置。
-* **进入烧录模式:** 仅需 **0.5秒内双击** 即可进入 BIOS/Bootloader 模式，固件更新从未如此简单。
-
-### 📉 阶梯式大拇指区设计
-大多数分体键盘采用平坦的大拇指布局，而我们采用了**下沉式阶梯设计**。
-* **自然贴合:** 微小的垂直落差，完美贴合大拇指自然静息时的曲线。
-* **盲操增强:** 触觉上的高度差让层级切换更直观，大幅升级手感并减轻疲劳。
-
-![细节展示](images/details.png)
-
-
----
-
-## 📦 版本与套餐选择
-
-### 1. 选择版本 (基础型号)
-提供 4 种配置以适配您的工作流程：
-* **基础版 (Basic):** 完整键盘组装（含轴体和键帽）。
-* **屏显版 (E-ink):** 基础版 + **1.54" 电子墨水状态屏**。
-* **触控版 (Trackpad):** 基础版 + **Cirque GlidePoint® 触控板**。
-* **旗舰版 (Flagship):** 终极配置，**同时拥有电子屏与触控板**。
-
-### 2. 选择套餐
-* **标准配置:** 仅含所选版本的键盘。
-* **人体工学套餐 (Bundle 1):** 所选版本键盘 + **专属磁吸支撑支架**。
-
-### 3. 🎁 专属赠品
-**每一份订单**（无论版本或套餐）均附赠一对 **云感记忆棉腕垫**。
-
-![腕垫](images/wrist.png)
-
----
-
-## Q&A 常见问题
-![QA图](images/Q&A.png)
-
-## ⌨️ 默认键位布局
-
-我们默认的 34 键布局旨在以最小的手指移动实现最高的效率。
-![layout](images/keymap.png)
-
---- 
-
-## 🎨 更多配色展示
-
-![配色56](images/56.png)
-![配色57](images/57.png)
-![配色58](images/58.png)
-![配色59](images/59.png)
-![配色60](images/60.png)
-![配色61](images/61.png)
-![配色62](images/62.png)
-![配色63](images/63.png)
-![配色64](images/64.png)
-![配色65](images/65.png)
-![配色66](images/66.png)
-![配色67](images/67.png)
-
-*Designed with ❤️ by [sky-bro](https://github.com/sky-bro)*
+Discord：`@lilin0522` · 微信：`nxtkb888`
