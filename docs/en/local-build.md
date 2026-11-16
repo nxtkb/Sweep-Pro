@@ -11,7 +11,7 @@ The following commands assume you are running them from the ZMK west workspace r
 
 The local build now uses the official `zmkfirmware/zmk` checkout. The Sweep-Pro display status screen has been split out of the old `lynnlee0522/zmk` fork into the standalone `zmk-vfx-sweep-pro-display` module, so builds with the display need that module in `ZMK_EXTRA_MODULES` and `sweep_display` in the `SHIELD` list.
 
-All Sweep-Pro hardware variants share one `config/sweep.keymap`. The display and TPS65 are optional shields. Select the UF2 files matching your hardware. The additional left TPS65 test target uses `sweep_left sweep_left_tps65`, without display shields, and includes page-swipe and multi-finger directional gestures.
+All Sweep-Pro hardware variants share one `config/sweep.keymap`. This branch builds TPS65 on the left by default: use `sweep_left_tps65` with `sweep_right`. The TPS65 target uses `sweep_left sweep_left_tps65`, without display shields, and includes page-swipe and multi-finger directional gestures. The right TPS65 overlay remains optional source and is excluded from the default build matrix.
 
 ## Dependencies
 
@@ -129,16 +129,15 @@ Build the half-keyboard firmware files you need:
 | `sweep_left` | `sweep_left` | Base left half, no display |
 | `sweep_left_display` | `sweep_left sweep_left_display_hw sweep_display` | Left half with e-ink display |
 | `sweep_right` | `sweep_right` | Base right half, no trackpad |
-| `sweep_right_tps65` | `sweep_right sweep_right_tps65` | Right half with Azoteq TPS65 trackpad |
+| `sweep_left_tps65` | `sweep_left sweep_left_tps65` | Left half with Azoteq TPS65 trackpad |
 
-Use these combinations for the 4 keyboard variants:
+Use these combinations for the keyboard variants:
 
 | Keyboard variant | Left UF2 | Right UF2 |
 | :--- | :--- | :--- |
 | Basic | `sweep_left` | `sweep_right` |
 | E-ink | `sweep_left_display` | `sweep_right` |
-| TPS65 Trackpad | `sweep_left` | `sweep_right_tps65` |
-| TPS65 Flagship | `sweep_left_display` | `sweep_right_tps65` |
+| TPS65 Trackpad | `sweep_left_tps65` | `sweep_right` |
 
 Base left half. Studio RPC over USB UART is useful for ZMK Studio remapping:
 
@@ -169,11 +168,11 @@ west build -s app -p -d build/sweep_right -b nice_nano//zmk -- \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
 
-Right half with TPS65. `sweep_right_tps65` provides the Azoteq IQS5xx I2C node, currently using address `0x74`:
+Left half with TPS65. `sweep_left_tps65` provides the Azoteq IQS5xx I2C node, currently using address `0x74`:
 
 ```shell
-west build -s app -p -d build/sweep_right_tps65 -b nice_nano//zmk -- \
-    -DSHIELD="sweep_right sweep_right_tps65" \
+west build -s app -p -d build/sweep_left_tps65 -b nice_nano//zmk -S studio-rpc-usb-uart -- \
+    -DSHIELD="sweep_left sweep_left_tps65" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -186,7 +185,7 @@ After a successful build, the firmware files are:
 build/sweep_left/zephyr/zmk.uf2
 build/sweep_left_display/zephyr/zmk.uf2
 build/sweep_right/zephyr/zmk.uf2
-build/sweep_right_tps65/zephyr/zmk.uf2
+build/sweep_left_tps65/zephyr/zmk.uf2
 ```
 
 For later builds with the same CMake parameters, you can usually reuse the build directories:
@@ -195,7 +194,7 @@ For later builds with the same CMake parameters, you can usually reuse the build
 west build -d build/sweep_left
 west build -d build/sweep_left_display
 west build -d build/sweep_right
-west build -d build/sweep_right_tps65
+west build -d build/sweep_left_tps65
 ```
 
 If you change the shield, extra modules, snippets, or `ZMK_CONFIG`, rerun the full command with `-p` to regenerate the build directory.
@@ -248,7 +247,7 @@ These identifiers do not imply OpenAI certification or an identifier assignment 
 third-party keyboard makers. The discovery behavior is undocumented and may change. External
 integrators are responsible for determining whether they are authorized to distribute firmware
 using the compatibility identifiers.
-The right half continues to use the normal `sweep_right` or `sweep_right_tps65` firmware.
+For a left TPS65 setup, use `sweep_left_tps65` with `sweep_right` on the right half.
 
 After first flashing a BLE-enabled build, forget the old keyboard in the host Bluetooth settings,
 clear the selected ZMK Bluetooth profile, and pair with the keyboard's configured name again. HID report maps are

@@ -121,23 +121,22 @@ EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTK
 ZMK_CONFIG_DIR="$NXTKB_ROOT/Sweep-Pro/config"
 ```
 
-推荐一次性编译需要的半边固件。另有左手 TPS65 测试目标 `sweep_left_tps65`，使用 `sweep_left sweep_left_tps65`，不能与显示屏 shield 同时启用；该目标包含双指翻页与多指方向手势。
+本分支的 TPS65 默认放在左手，目标为 `sweep_left_tps65`，使用 `sweep_left sweep_left_tps65`，配套右手使用 `sweep_right`。不能与左手显示屏 shield 同时启用；该目标包含双指翻页与多指方向手势。右手 TPS65 overlay 仅保留为可选源码，不在默认构建矩阵中。
 
 | 固件 | Shield 组合 | 用途 |
 | :--- | :--- | :--- |
 | `sweep_left` | `sweep_left` | 左手基础版，不带屏幕 |
 | `sweep_left_display` | `sweep_left sweep_left_display_hw sweep_display` | 左手带 e-ink 屏幕 |
 | `sweep_right` | `sweep_right` | 右手基础版，不带触控板 |
-| `sweep_right_tps65` | `sweep_right sweep_right_tps65` | 右手带 Azoteq TPS65 触控板 |
+| `sweep_left_tps65` | `sweep_left sweep_left_tps65` | 左手带 Azoteq TPS65 触控板 |
 
-四种整机版本对应关系：
+整机版本对应关系：
 
 | 整机版本 | 左手 UF2 | 右手 UF2 |
 | :--- | :--- | :--- |
 | Basic | `sweep_left` | `sweep_right` |
 | E-ink | `sweep_left_display` | `sweep_right` |
-| TPS65 Trackpad | `sweep_left` | `sweep_right_tps65` |
-| TPS65 Flagship | `sweep_left_display` | `sweep_right_tps65` |
+| TPS65 Trackpad | `sweep_left_tps65` | `sweep_right` |
 
 左手基础版。建议启用 Studio RPC over USB UART，方便用 ZMK Studio 改键：
 
@@ -168,11 +167,11 @@ west build -s app -p -d build/sweep_right -b nice_nano//zmk -- \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
 
-右手带 TPS65。`sweep_right_tps65` 提供 Azoteq IQS5xx I2C 节点，当前默认地址为 `0x74`：
+左手带 TPS65。`sweep_left_tps65` 提供 Azoteq IQS5xx I2C 节点，当前默认地址为 `0x74`：
 
 ```shell
-west build -s app -p -d build/sweep_right_tps65 -b nice_nano//zmk -- \
-    -DSHIELD="sweep_right sweep_right_tps65" \
+west build -s app -p -d build/sweep_left_tps65 -b nice_nano//zmk -S studio-rpc-usb-uart -- \
+    -DSHIELD="sweep_left sweep_left_tps65" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -185,7 +184,7 @@ west build -s app -p -d build/sweep_right_tps65 -b nice_nano//zmk -- \
 build/sweep_left/zephyr/zmk.uf2
 build/sweep_left_display/zephyr/zmk.uf2
 build/sweep_right/zephyr/zmk.uf2
-build/sweep_right_tps65/zephyr/zmk.uf2
+build/sweep_left_tps65/zephyr/zmk.uf2
 ```
 
 第二次编译同一个 build 目录时，如果 CMake 参数没有变化，可以直接执行：
@@ -194,7 +193,7 @@ build/sweep_right_tps65/zephyr/zmk.uf2
 west build -d build/sweep_left
 west build -d build/sweep_left_display
 west build -d build/sweep_right
-west build -d build/sweep_right_tps65
+west build -d build/sweep_left_tps65
 ```
 
 修改了 shield、extra modules、snippets 或 `ZMK_CONFIG` 后，建议继续使用带 `-p` 的完整命令重新生成构建目录。
@@ -244,7 +243,7 @@ Device Information 名称仍由键盘配置决定。Sweep Pro 的发布固件会
 这些标识符不代表 OpenAI 认证，也不代表这些标识符已分配给 NXTKB 或第三方键盘厂商。
 ChatGPT 的发现机制没有公开文档且可能变化；外部集成方需要自行确认是否有权发布使用这些
 兼容标识符的固件。右手继续
-使用原有 `sweep_right` 或 `sweep_right_tps65` 固件。
+左手 TPS65 使用 `sweep_left_tps65`，配套右手使用 `sweep_right`。
 
 首次刷入带 BLE 支持的固件后，需要先在主机蓝牙设置中忽略旧键盘、清除所选 ZMK
 蓝牙 profile，再按键盘配置的名称重新配对。HID report map 会被缓存在旧 bond 中，普通

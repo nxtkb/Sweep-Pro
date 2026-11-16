@@ -7,7 +7,7 @@
 
 [中文](./README-zh_CN.md) | English
 
-A 34-key low-profile split keyboard with USB, Bluetooth, and ZMK Studio support, plus optional left-side e-ink display and right-side Azoteq TPS65 trackpad.
+A 34-key low-profile split keyboard with USB, Bluetooth, and ZMK Studio support, plus optional left-side e-ink display and left-side Azoteq TPS65 trackpad.
 This repository contains the keyboard configuration, default keymap, and firmware build workflow.
 Start with the [official user guide](https://nxtkb.com/docs/setup/ferris-sweep-pro/) for setup and everyday use.
 See the [product page](https://nxtkb.com/products/ferris-sweep-pro/) for specifications, switches, accessories, and colors.

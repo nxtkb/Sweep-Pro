@@ -17,8 +17,7 @@ This firmware is for the Sweep-Pro, compatible with the version featuring an e-i
 
 - ⌨️ Basic: flash `sweep_left.uf2` and `sweep_right.uf2`.
 - 🖥️ E-ink: flash `sweep_left_display.uf2` and `sweep_right.uf2`.
-- 🖱️ Trackpad: flash `sweep_left.uf2` and `sweep_right_tps65.uf2`.
-- ✨ Flagship: flash `sweep_left_display.uf2` and `sweep_right_tps65.uf2`.
+- 🖱️ Left TPS65: flash `sweep_left_tps65.uf2` and `sweep_right.uf2`. Do not combine TPS65 and the display on the left half.
 
 ## 📥 How to Flash
 

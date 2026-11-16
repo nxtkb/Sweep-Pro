@@ -7,7 +7,7 @@
 
 中文 | [English](./README.md)
 
-34 键矮轴分体键盘，支持 USB、蓝牙和 ZMK Studio，可选左侧墨水屏与右侧 Azoteq TPS65 触控板。
+34 键矮轴分体键盘，支持 USB、蓝牙和 ZMK Studio，可选左侧墨水屏与左侧 Azoteq TPS65 触控板。
 这个仓库保存键盘配置、默认键位和固件构建流程；上手与日常使用请从[官方使用指南](https://nxtkb.com/zh/docs/setup/ferris-sweep-pro/)开始。
 产品规格、轴体、配件和配色见[官网产品页](https://nxtkb.com/zh/products/ferris-sweep-pro/)。
 
