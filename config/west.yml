@@ -9,14 +9,17 @@ manifest:
   projects:
   - name: zmk
     remote: zmkfirmware
-    revision: cb615aee9a7c427e251f2ab62080c1a44a165da9
+    revision: 4de313367288aad5aeaa1243890e40dc813f7008
     import: app/west.yml
   - name: zmk-vfx-sweep-pro-display
     remote: nxtkb
-    revision: 7fa09a2ea91f94f7378acaf81b461197b01f4854
+    revision: cc9e09b4d90ed7e17d96f582904977d60574f878
+  - name: zmk-feature-codex-micro
+    remote: nxtkb
+    revision: c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
   - name: zmk-behavior-report
     remote: nxtkb
-    revision: main
+    revision: 476f43da1f98b4a6150c9c0e499a257bd64a29a0
     import: west.yml
   - name: zmk-driver-azoteq-iqs5xx
     remote: nxtkb
