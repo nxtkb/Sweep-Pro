@@ -11,3 +11,6 @@ config SHIELD_SWEEP_RIGHT
 
 config SHIELD_SWEEP_RIGHT_TRACKPAD
     def_bool $(shields_list_contains,sweep_right_trackpad)
+
+config SHIELD_SWEEP_STUDIO_SENSORS
+    def_bool $(shields_list_contains,sweep_studio_sensors)

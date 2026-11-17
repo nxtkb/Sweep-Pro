@@ -31,6 +31,8 @@
 2. 等待 [GitHub Actions](https://github.com/nxtkb/Sweep-Pro/actions/workflows/build.yml) 构建固件。
 3. 下载 UF2，按[刷写指南](https://nxtkb.com/zh/docs/firmware/how-to-flash-a-firmware/)更新对应半边。
 
+左手固件包含 [NXTKB 传感器绑定扩展 0.1](https://github.com/nxtkb/zmk-feature-studio-sensors)，兼容客户端可实时编辑旋钮绑定。官方 ZMK Studio UI 仍用于普通按键改键，配套 NXTKB App 尚未正式发布。默认继续使用 Full Consumer HID 报告；主机差异见[媒体键兼容性说明](https://nxtkb.com/zh/docs/setup/connect/#蓝牙媒体键兼容性)。
+
 本地开发见[本地编译固件](docs/zh_CN/local-build.md)。
 
 ## 仓库结构

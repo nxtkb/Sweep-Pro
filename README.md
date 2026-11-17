@@ -32,6 +32,8 @@ Use [ZMK Studio](https://zmk.studio/) for everyday keymap edits. To change firmw
 2. Let [GitHub Actions](https://github.com/nxtkb/Sweep-Pro/actions/workflows/build.yml) build the firmware.
 3. Download the UF2 files and [flash the matching halves](https://nxtkb.com/docs/firmware/how-to-flash-a-firmware/).
 
+The left firmware includes the [NXTKB sensor-binding extension 0.1](https://github.com/nxtkb/zmk-feature-studio-sensors) for runtime encoder editing by compatible clients. The stock ZMK Studio UI still edits ordinary keys; the companion NXTKB App has not been formally released. Full Consumer HID reports remain the default; see the [media-key compatibility notes](https://nxtkb.com/docs/setup/connect/#bluetooth-media-key-compatibility) for host-specific limitations.
+
 For local development, see the [local build guide](docs/en/local-build.md).
 
 ## Repository Layout

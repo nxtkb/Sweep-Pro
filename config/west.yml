@@ -2,8 +2,6 @@ manifest:
   remotes:
   - name: zmkfirmware
     url-base: https://github.com/zmkfirmware
-  - name: lynnlee0522
-    url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
   projects:
@@ -16,11 +14,14 @@ manifest:
     revision: cc9e09b4d90ed7e17d96f582904977d60574f878
   - name: zmk-feature-codex-micro
     remote: nxtkb
-    revision: c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
+    revision: 14326d7f7adb129ba44ab44cc5b95a0e3b25ee64
   - name: zmk-behavior-report
     remote: nxtkb
     revision: 476f43da1f98b4a6150c9c0e499a257bd64a29a0
     import: west.yml
+  - name: zmk-feature-studio-sensors
+    remote: nxtkb
+    revision: 0c9e271963289a31edc9fe500113c69da5b65ba5
   - name: cirque-input-module
     remote: nxtkb
     revision: 8af03a4c061580c14ec8745caf0fa2dd3fc7f042

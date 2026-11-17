@@ -113,11 +113,37 @@ git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply \
 更新到干净的 ZMK checkout 后需要重新应用补丁。发布 workflow 会自动应用
 显示模块的供电补丁和 Codex USB 补丁。
 
+### 实时旋钮绑定
+
+左手构建启用 NXTKB 传感器绑定扩展 0.1，需要兼容客户端；NXTKB App 尚未正式发布。
+请把 `zmk-feature-studio-sensors` 检出到 `config/west.yml` 固定的版本。
+
+如果 west 工作区由键盘 manifest 初始化，使用
+`west patch -sm zmk-feature-studio-sensors apply` 应用模块全部补丁。
+本指南的同级 checkout 布局可直接向固定 ZMK 和 messages 应用：
+
+```shell
+SENSORS_MODULE="$NXTKB_ROOT/zmk-feature-studio-sensors"
+MESSAGES_DIR="$NXTKB_ROOT/zmkfirmware/zmk/modules/msgs/zmk-studio-messages"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply "$SENSORS_MODULE/zephyr/patches/zmk/studio-sensors-local.patch"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply "$SENSORS_MODULE/zephyr/patches/zmk/studio-rpc-tx-backpressure.patch"
+git -C "$MESSAGES_DIR" apply "$SENSORS_MODULE/zephyr/patches/zmk-studio-messages/studio-sensors-local.patch"
+```
+
+messages 基线为 `6cb4c283e76209d59c45fbcb218800cd19e9339d`。
+在构建任意半边前，向干净的固定版本应用一次补丁。下方左手命令已包含
+`studio-sensors-local` snippet 和 `sweep_studio_sensors` shield；后者声明两个旋钮并分配两个槽位。
+右手及 reset 构建不启用该服务，发布 workflow 自动应用全部模块补丁。
+
+更换固件前备份自定义旋钮绑定；扩展 0.1 会拒绝不兼容记录，不会猜测迁移。
+详见[模块文档](https://github.com/nxtkb/zmk-feature-studio-sensors)和
+[主机兼容说明](https://nxtkb.com/zh/docs/setup/connect/#蓝牙媒体键兼容性)。
+
 公共参数：
 
 ```shell
 export NXTKB_ROOT="/path/to/nxtkb"
-EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/cirque-input-module;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string"
+EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/cirque-input-module;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string;$NXTKB_ROOT/zmk-feature-studio-sensors;$NXTKB_ROOT/zmkfirmware/zmk/modules/msgs/zmk-studio-messages"
 ZMK_CONFIG_DIR="$NXTKB_ROOT/Sweep-Pro/config"
 ```
 
@@ -143,8 +169,8 @@ ZMK_CONFIG_DIR="$NXTKB_ROOT/Sweep-Pro/config"
 
 ```shell
 west build -s app -p -d build/sweep_left -b nice_nano//zmk \
-    -S studio-rpc-usb-uart -- \
-    -DSHIELD=sweep_left \
+    -S studio-rpc-usb-uart -S studio-sensors-local -- \
+    -DSHIELD="sweep_left sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -153,8 +179,8 @@ west build -s app -p -d build/sweep_left -b nice_nano//zmk \
 
 ```shell
 west build -s app -p -d build/sweep_left_display -b nice_nano//zmk \
-    -S studio-rpc-usb-uart -- \
-    -DSHIELD="sweep_left sweep_left_display_hw sweep_display" \
+    -S studio-rpc-usb-uart -S studio-sensors-local -- \
+    -DSHIELD="sweep_left sweep_left_display_hw sweep_display sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -228,11 +254,11 @@ CODEX_EXTRA_MODULES="$EXTRA_MODULES;$NXTKB_ROOT/zmk-feature-codex-micro"
 
 ```shell
 west build -s app -p -d build/sweep_left_display_codex -b nice_nano//zmk \
-    -S studio-rpc-usb-uart \
+    -S studio-rpc-usb-uart -S studio-sensors-local \
     -S nxtkb-codex-micro-usb \
     -S nxtkb-codex-micro-ble \
     -S nxtkb-codex-micro-compat-identity -- \
-    -DSHIELD="sweep_left sweep_left_display_hw sweep_display" \
+    -DSHIELD="sweep_left sweep_left_display_hw sweep_display sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$CODEX_EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
