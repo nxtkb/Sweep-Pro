@@ -2,7 +2,7 @@ name: Build firmware
 
 on:
   push:
-    branches: [main]
+    branches: [main, tps65]
   pull_request:
   workflow_dispatch:
 
