@@ -11,9 +11,11 @@ permissions:
 
 jobs:
   build:
-    # The module-owned workflow applies its version-matched ZMK compatibility
-    # patch before building. Pinning it keeps the module and build procedure in sync.
-    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
+    # Keep the pinned upstream build procedure, adding private-driver authentication.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    uses: ./.github/workflows/build-private-driver.yml
+    secrets:
+      TPS43_DRIVER_READ_TOKEN: ${{ secrets.TPS43_DRIVER_READ_TOKEN }}
     with:
       build_matrix_path: build.yaml
       archive_name: sweep-pro-firmware

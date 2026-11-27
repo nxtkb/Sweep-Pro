@@ -1,0 +1,192 @@
+# Based on nxtkb/zmk-feature-codex-micro at c53c81697e72ade603e84e7f3c8c5e43a04ddf4c.
+# The only build-procedure addition is scoped, read-only private-driver access.
+name: Build with private TPS driver
+
+on:
+  workflow_call:
+    secrets:
+      TPS43_DRIVER_READ_TOKEN:
+        description: Fine-grained Contents read-only token for the TPS driver repository
+        required: true
+    inputs:
+      build_matrix_path:
+        description: Path to the Codex build matrix
+        default: codex-build.yaml
+        required: false
+        type: string
+      config_path:
+        description: Path containing the west manifest
+        default: config
+        required: false
+        type: string
+      zmk_config_path:
+        description: ZMK config path after west update; defaults to config_path
+        default: ""
+        required: false
+        type: string
+      archive_name:
+        description: Merged firmware artifact name
+        default: codex-firmware
+        required: false
+        type: string
+      patch_modules:
+        description: Newline-separated patch source modules; use . for the caller module
+        default: zmk-feature-codex-micro
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-22.04
+    name: Fetch Codex build matrix
+    outputs:
+      build_matrix: ${{ steps.matrix.outputs.build_matrix }}
+    steps:
+      - name: Checkout caller
+        uses: actions/checkout@v6
+
+      - name: Read build matrix
+        id: matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          matrix_content=$(yq -o=json -I=0 '.' '${{ inputs.build_matrix_path }}')
+          test -n "${matrix_content}"
+          test "${matrix_content}" != "null"
+          echo "build_matrix=${matrix_content}" >> "${GITHUB_OUTPUT}"
+
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/zmkfirmware/zmk-build-arm:stable
+    needs: matrix
+    name: Build Codex firmware
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.matrix.outputs.build_matrix) }}
+    steps:
+      - name: Checkout caller
+        uses: actions/checkout@v6
+
+      - name: Prepare workspace
+        shell: bash
+        env:
+          BOARD: ${{ matrix.board }}
+          SHIELD: ${{ matrix.shield }}
+          SNIPPET: ${{ matrix.snippet }}
+          ARTIFACT_NAME: ${{ matrix.artifact-name }}
+        run: |
+          set -euo pipefail
+          echo "build_dir=$(mktemp -d)" >> "${GITHUB_ENV}"
+
+          if [[ -e zephyr/module.yml ]]; then
+            base_dir="${RUNNER_TEMP}/zmk-workspace"
+            manifest_dir="${base_dir}/config"
+            mkdir -p "${manifest_dir}"
+            cp -R "${{ inputs.config_path }}/." "${manifest_dir}/"
+            extra_modules="-DZMK_EXTRA_MODULES=${GITHUB_WORKSPACE}"
+          else
+            base_dir="${GITHUB_WORKSPACE}"
+            manifest_dir="${base_dir}/${{ inputs.config_path }}"
+            extra_modules=""
+          fi
+
+          zmk_config_path="${{ inputs.zmk_config_path }}"
+          if [[ -z "${zmk_config_path}" ]]; then
+            zmk_config="${manifest_dir}"
+          else
+            zmk_config="${base_dir}/${zmk_config_path}"
+          fi
+
+          echo "base_dir=${base_dir}" >> "${GITHUB_ENV}"
+          echo "manifest_dir=${manifest_dir}" >> "${GITHUB_ENV}"
+          echo "zmk_config=${zmk_config}" >> "${GITHUB_ENV}"
+          echo "extra_modules=${extra_modules}" >> "${GITHUB_ENV}"
+          echo "artifact_name=${ARTIFACT_NAME:-${SHIELD:+${SHIELD// /_}-}${BOARD//\//_}-codex}" >> "${GITHUB_ENV}"
+
+      - name: Initialize west workspace
+        working-directory: ${{ env.base_dir }}
+        run: west init -l "${{ env.manifest_dir }}"
+
+      - name: Update west projects
+        working-directory: ${{ env.base_dir }}
+        shell: bash
+        env:
+          TPS43_DRIVER_READ_TOKEN: ${{ secrets.TPS43_DRIVER_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "${TPS43_DRIVER_READ_TOKEN}" || { echo 'Missing TPS43_DRIVER_READ_TOKEN: supply a driver-only Contents read token'; exit 1; }
+          auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "${TPS43_DRIVER_READ_TOKEN}" | base64 | tr -d '\n')"
+          echo "::add-mask::${auth_header}"
+          unset TPS43_DRIVER_READ_TOKEN
+          # Scope authentication to this dependency, without credentials in URLs or files.
+          export GIT_CONFIG_COUNT=2
+          export GIT_CONFIG_KEY_0=http.https://github.com/nxtkb/zmk-driver-azoteq-iqs5xx.extraheader
+          export GIT_CONFIG_KEY_1=http.https://github.com/nxtkb/zmk-driver-azoteq-iqs5xx.git.extraheader
+          export GIT_CONFIG_VALUE_0="${auth_header}"
+          export GIT_CONFIG_VALUE_1="${auth_header}"
+          export GIT_TERMINAL_PROMPT=0
+          unset auth_header
+          git ls-remote https://github.com/nxtkb/zmk-driver-azoteq-iqs5xx HEAD > /dev/null
+          west update --fetch-opt=--filter=tree:0
+
+      - name: Apply official ZMK compatibility patches
+        working-directory: ${{ env.base_dir }}
+        shell: bash
+        env:
+          PATCH_MODULES: ${{ inputs.patch_modules }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r patch_module || [[ -n "${patch_module}" ]]; do
+            [[ -z "${patch_module}" ]] && continue
+            if [[ "${patch_module}" == "." ]]; then
+              # West 1.5 resolves patch sources inside the west workspace.
+              patch_module=".caller-patches"
+              mkdir -p "${patch_module}"
+              cp -R "${GITHUB_WORKSPACE}/zephyr" "${patch_module}/"
+            fi
+            west patch -sm "${patch_module}" apply
+          done <<< "${PATCH_MODULES}"
+
+      - name: Export Zephyr CMake package
+        working-directory: ${{ env.base_dir }}
+        run: west zephyr-export
+
+      - name: Build ${{ matrix.artifact-name }}
+        working-directory: ${{ env.base_dir }}
+        shell: bash
+        run: >-
+          west build -s zmk/app -p -d "${{ env.build_dir }}"
+          -b "${{ matrix.board }}" ${{ matrix.snippet && format('-S "{0}"', matrix.snippet) || '' }} --
+          ${{ matrix.shield && format('-DSHIELD="{0}"', matrix.shield) || '' }}
+          -DZMK_CONFIG="${{ env.zmk_config }}"
+          ${{ env.extra_modules }}
+          ${{ matrix.cmake-args }}
+
+      - name: Collect firmware
+        shell: bash
+        run: |
+          mkdir -p "${{ env.build_dir }}/artifacts"
+          cp "${{ env.build_dir }}/zephyr/zmk.uf2" \
+            "${{ env.build_dir }}/artifacts/${{ env.artifact_name }}.uf2"
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifact-${{ env.artifact_name }}
+          path: ${{ env.build_dir }}/artifacts
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    name: Merge Codex firmware
+    steps:
+      - name: Merge artifacts
+        uses: actions/upload-artifact/merge@v7
+        with:
+          name: ${{ inputs.archive_name }}
+          pattern: artifact-*
+          delete-merged: true
