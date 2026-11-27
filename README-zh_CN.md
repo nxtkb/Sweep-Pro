@@ -32,7 +32,7 @@
 
 本地开发见[本地编译固件](docs/zh_CN/local-build.md)。
 
-新右手 PCB 的 TPS43 独立手势测试版为 `sweep_right_tps43_gestures.uf2`，包含双指翻页和三指四方向操作；与普通右手从机固件不同。引脚、操作及云端构建见 [TPS43 右手手势说明](docs/zh_CN/tps43-right-gestures.md)。
+新右手 PCB 的 TPS43 独立手势版为 `sweep_right_tps43_gestures.uf2`，支持双指横滚、右边缘内扫打开通知中心，以及三指四方向滑动和轻点查词；与普通右手从机固件不同。[TPS43 右手手势与设置](docs/zh_CN/tps43-right-gestures.md)
 
 ## 仓库结构
 

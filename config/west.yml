@@ -23,6 +23,6 @@ manifest:
     import: west.yml
   - name: zmk-driver-azoteq-iqs5xx
     remote: nxtkb
-    revision: 4b74d4eaeab70114289a65e98bdac7d08996b343
+    revision: 6904f24d1ca4b96bdf0653982d7d9ed29c405b08
   self:
     path: config

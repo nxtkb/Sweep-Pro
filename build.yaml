@@ -26,8 +26,8 @@ include:
   shield: sweep_right
   snippet: studio-rpc-usb-uart zmk-usb-logging
   cmake-args: >-
-    -DEXTRA_CONF_FILE="${zmk_config}/sweep_right_tps65_test.conf"
-    -DEXTRA_DTC_OVERLAY_FILE="${zmk_config}/sweep_right_tps65_test.overlay"
+    -DEXTRA_CONF_FILE="${zmk_config}/sweep_right_tps65_test.conf;${zmk_config}/sweep_right_tps43_diag.conf"
+    -DEXTRA_DTC_OVERLAY_FILE="${zmk_config}/sweep_right_tps43_gestures.overlay"
   artifact-name: sweep_right_tps43_gestures
 - board: nice_nano//zmk
   shield: settings_reset

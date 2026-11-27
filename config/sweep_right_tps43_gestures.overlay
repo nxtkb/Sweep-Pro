@@ -1,0 +1,23 @@
+#include "sweep_right_tps65_test.overlay"
+
+&tps65_test {
+	multi-finger-swipe-threshold = <40>;
+	three-finger-tap;
+	three-finger-tap-button-code = <INPUT_BTN_9>;
+	three-finger-tap-time-ms = <220>;
+	three-finger-tap-max-distance = <24>;
+	one-finger-tap-drag;
+	tap-drag-window-ms = <240>;
+	tap-drag-recontact-distance = <240>;
+	tap-drag-start-distance = <32>;
+	switch-xy;
+	swipe-session-arbitration;
+	/delete-property/ two-finger-page-swipe-left;
+	/delete-property/ two-finger-page-swipe-right;
+	right-edge-swipe-key-code = <INPUT_KEY_F19>;
+};
+
+&tps43_right_gestures {
+	codes = <INPUT_BTN_4 INPUT_BTN_3 INPUT_BTN_6 INPUT_BTN_5 INPUT_BTN_9 INPUT_KEY_F19>;
+	bindings = <&kp LC(UP) &kp LC(DOWN) &kp LC(RIGHT) &kp LC(LEFT) &kp LC(LG(D)) &kp F19>;
+};
