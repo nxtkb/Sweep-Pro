@@ -1,0 +1,10 @@
+/ {
+    studio_sensor_descriptors {
+        compatible = "nxtkb,studio-sensors";
+        sensor-ids = <17 29>;
+        sensor-keys = "left-dial", "right-dial";
+        sensor-names = "Left encoder", "Right encoder";
+        sensor-kinds = <1 1>;
+        press-positions = <30 35>;
+    };
+};

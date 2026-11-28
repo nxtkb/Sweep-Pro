@@ -3,6 +3,7 @@ name: Build firmware
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -13,10 +14,11 @@ jobs:
   build:
     # The module-owned workflow applies its version-matched ZMK compatibility
     # patch before building. Pinning it keeps the module and build procedure in sync.
-    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
+    uses: nxtkb/zmk-feature-codex-micro/.github/workflows/build-user-config.yml@14326d7f7adb129ba44ab44cc5b95a0e3b25ee64
     with:
       build_matrix_path: build.yaml
       archive_name: sweep-pro-firmware
       patch_modules: |
         zmk-feature-codex-micro
         zmk-vfx-sweep-pro-display
+        zmk-feature-studio-sensors

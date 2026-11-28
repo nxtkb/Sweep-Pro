@@ -1,0 +1,7 @@
+/ {
+    adafruit_ble_dfu {
+        compatible = "nxtkb,adafruit-ble-dfu";
+        key-positions = <0 1 2>;
+        peripheral-key-positions = <7 8 9>;
+    };
+};

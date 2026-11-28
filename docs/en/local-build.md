@@ -1,5 +1,7 @@
 # Sweep-Pro Local Build
 
+The [release build matrix](../../build.yaml) lists the firmware pairs and filenames. Use the [discovery overlays](../../config/discovery/README.md) to match the left half to the actual right hardware. Both halves use the pinned [Bluetooth DFU module](https://github.com/nxtkb/zmk-feature-adafruit-ble-dfu).
+
 This guide describes how to build the Sweep-Pro ZMK firmware locally. First set `NXTKB_ROOT` to your local checkout path:
 
 ```shell
@@ -11,7 +13,7 @@ The following commands assume you are running them from the ZMK west workspace r
 
 The local build now uses the official `zmkfirmware/zmk` checkout. The Sweep-Pro display status screen has been split out of the old `lynnlee0522/zmk` fork into the standalone `zmk-vfx-sweep-pro-display` module, so builds with the display need that module in `ZMK_EXTRA_MODULES` and `sweep_display` in the `SHIELD` list.
 
-All Sweep-Pro hardware variants share one `config/sweep.keymap`. The display and trackpad are optional shields that get composed into the build, so one repository can produce 4 half-keyboard firmware files. Users only need to pick the UF2 files matching their hardware.
+All Sweep-Pro hardware variants share one `config/sweep.keymap`. The display and trackpad are optional shields that get composed into the build, so one repository can build the matching halves for each hardware combination. Users only need to pick the UF2 files matching their hardware.
 
 ## Dependencies
 
@@ -114,20 +116,49 @@ USB power state. The indicator shows USB power presence, not charger status.
 Patches must be reapplied after updating to a clean ZMK checkout. The release
 workflow applies both the display power patch and Codex USB patch automatically.
 
+### Runtime encoder bindings
+
+The left builds enable NXTKB's sensor-binding extension 0.1. Check out
+`zmk-feature-studio-sensors` at the revision in `config/west.yml`; a compatible
+client is required, and the NXTKB App is not formally released yet.
+
+When the keyboard manifest owns the west workspace, apply the module's complete
+patch manifest with `west patch -sm zmk-feature-studio-sensors apply`. For the
+sibling-checkout layout used here, apply its pinned patches to ZMK and messages:
+
+```shell
+SENSORS_MODULE="$NXTKB_ROOT/zmk-feature-studio-sensors"
+MESSAGES_DIR="$NXTKB_ROOT/zmkfirmware/zmk/modules/msgs/zmk-studio-messages"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply "$SENSORS_MODULE/zephyr/patches/zmk/studio-sensors-local.patch"
+git -C "$NXTKB_ROOT/zmkfirmware/zmk" apply "$SENSORS_MODULE/zephyr/patches/zmk/studio-rpc-tx-backpressure.patch"
+git -C "$MESSAGES_DIR" apply "$SENSORS_MODULE/zephyr/patches/zmk-studio-messages/studio-sensors-local.patch"
+```
+
+The messages baseline is `6cb4c283e76209d59c45fbcb218800cd19e9339d`. Apply patches
+once to clean pinned sources, before building any half. Central commands below
+include `studio-sensors-local` and `sweep_studio_sensors`; the shield describes
+the two encoders and allocates two slots. Peripheral/reset builds keep the
+service disabled. The release workflow applies all module patches automatically.
+
+Back up custom encoder bindings before changing firmware; extension 0.1 rejects
+incompatible saved sensor records rather than guessing a migration. See the
+[module documentation](https://github.com/nxtkb/zmk-feature-studio-sensors) and
+[host compatibility guide](https://nxtkb.com/docs/setup/connect/#bluetooth-media-key-compatibility).
+
 Common parameters:
 
 ```shell
 export NXTKB_ROOT="/path/to/nxtkb"
-EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/cirque-input-module;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string"
+EXTRA_MODULES="$NXTKB_ROOT/Sweep-Pro;$NXTKB_ROOT/zmk-vfx-sweep-pro-display;$NXTKB_ROOT/cirque-input-module;$NXTKB_ROOT/zmk-behavior-report;$NXTKB_ROOT/zmk-behavior-send-string;$NXTKB_ROOT/zmk-feature-studio-sensors;$NXTKB_ROOT/zmkfirmware/zmk/modules/msgs/zmk-studio-messages"
 ZMK_CONFIG_DIR="$NXTKB_ROOT/Sweep-Pro/config"
 ```
 
-The recommended output set is 4 half-keyboard firmware files:
+The base shield combinations are:
 
 | Firmware | Shield combination | Use |
 | :--- | :--- | :--- |
-| `sweep_left` | `sweep_left` | Base left half, no display |
-| `sweep_left_display` | `sweep_left sweep_left_display_hw sweep_display` | Left half with e-ink display |
+| `sweep_left` | `sweep_left sweep_studio_sensors` | Base left half, no display |
+| `sweep_left_display` | `sweep_left sweep_left_display_hw sweep_display sweep_studio_sensors` | Left half with e-ink display |
 | `sweep_right` | `sweep_right` | Base right half, no trackpad |
 | `sweep_right_trackpad` | `sweep_right sweep_right_trackpad` | Right half with Cirque trackpad |
 
@@ -137,15 +168,15 @@ Use these combinations for the 4 keyboard variants:
 | :--- | :--- | :--- |
 | Basic | `sweep_left` | `sweep_right` |
 | E-ink | `sweep_left_display` | `sweep_right` |
-| Trackpad | `sweep_left` | `sweep_right_trackpad` |
-| Flagship | `sweep_left_display` | `sweep_right_trackpad` |
+| Trackpad | `sweep_left_trackpad` | `sweep_right_trackpad` |
+| Flagship | `sweep_left_display_trackpad` | `sweep_right_trackpad` |
 
 Base left half. Studio RPC over USB UART is useful for ZMK Studio remapping:
 
 ```shell
 west build -s app -p -d build/sweep_left -b nice_nano//zmk \
-    -S studio-rpc-usb-uart -- \
-    -DSHIELD=sweep_left \
+    -S studio-rpc-usb-uart -S studio-sensors-local -- \
+    -DSHIELD="sweep_left sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -154,8 +185,8 @@ Left half with display. `sweep_left_display_hw` provides the e-ink hardware node
 
 ```shell
 west build -s app -p -d build/sweep_left_display -b nice_nano//zmk \
-    -S studio-rpc-usb-uart -- \
-    -DSHIELD="sweep_left sweep_left_display_hw sweep_display" \
+    -S studio-rpc-usb-uart -S studio-sensors-local -- \
+    -DSHIELD="sweep_left sweep_left_display_hw sweep_display sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```
@@ -230,11 +261,11 @@ Build the left half with display and both Codex transports:
 
 ```shell
 west build -s app -p -d build/sweep_left_display_codex -b nice_nano//zmk \
-    -S studio-rpc-usb-uart \
+    -S studio-rpc-usb-uart -S studio-sensors-local \
     -S nxtkb-codex-micro-usb \
     -S nxtkb-codex-micro-ble \
     -S nxtkb-codex-micro-compat-identity -- \
-    -DSHIELD="sweep_left sweep_left_display_hw sweep_display" \
+    -DSHIELD="sweep_left sweep_left_display_hw sweep_display sweep_studio_sensors" \
     -DZMK_EXTRA_MODULES="$CODEX_EXTRA_MODULES" \
     -DZMK_CONFIG="$ZMK_CONFIG_DIR"
 ```

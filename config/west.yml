@@ -2,8 +2,6 @@ manifest:
   remotes:
   - name: zmkfirmware
     url-base: https://github.com/zmkfirmware
-  - name: lynnlee0522
-    url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
   projects:
@@ -11,16 +9,25 @@ manifest:
     remote: zmkfirmware
     revision: 4de313367288aad5aeaa1243890e40dc813f7008
     import: app/west.yml
+  - name: zmk-feature-adafruit-ble-dfu
+    remote: nxtkb
+    revision: 3b51523ae29931bbee2884f7c9c63fe369ed9168
   - name: zmk-vfx-sweep-pro-display
     remote: nxtkb
-    revision: cc9e09b4d90ed7e17d96f582904977d60574f878
+    revision: 15ff32dc3b886859d0c2a2f86a252a0534073149
   - name: zmk-feature-codex-micro
     remote: nxtkb
-    revision: c53c81697e72ade603e84e7f3c8c5e43a04ddf4c
+    revision: 14326d7f7adb129ba44ab44cc5b95a0e3b25ee64
   - name: zmk-behavior-report
     remote: nxtkb
     revision: 476f43da1f98b4a6150c9c0e499a257bd64a29a0
     import: west.yml
+  - name: zmk-feature-studio-sensors
+    remote: nxtkb
+    revision: 9393801763278df848a54f1e39936b81c676f915
+  - name: zmk-feature-hardware-discovery
+    remote: nxtkb
+    revision: a380d012f65be012caf1cab774af92011c085a96
   - name: cirque-input-module
     remote: nxtkb
     revision: 8af03a4c061580c14ec8745caf0fa2dd3fc7f042
