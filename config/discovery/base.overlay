@@ -1,0 +1,19 @@
+#include <dt-bindings/nxtkb/hardware-discovery.h>
+
+/ {
+    hardware_left_encoder {
+        compatible = "nxtkb,hardware-component";
+        component-id = <1>;
+        component-kind = <NXTKB_HW_ENCODER>;
+        side = <NXTKB_HW_SIDE_LEFT>;
+    };
+
+    hardware_right_encoder {
+        compatible = "nxtkb,hardware-component";
+        component-id = <2>;
+        component-kind = <NXTKB_HW_ENCODER>;
+        side = <NXTKB_HW_SIDE_RIGHT>;
+        remote;
+        split-source = <0>;
+    };
+};

@@ -1,0 +1,10 @@
+#include <dt-bindings/nxtkb/hardware-discovery.h>
+
+/ {
+    hardware_display {
+        compatible = "nxtkb,hardware-component";
+        component-id = <3>;
+        component-kind = <NXTKB_HW_DISPLAY>;
+        side = <NXTKB_HW_SIDE_LEFT>;
+    };
+};
